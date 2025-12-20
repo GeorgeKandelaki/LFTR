@@ -70,7 +70,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         role: "user",
-        avatar: "",
+        avatar: "default.jpg",
     });
 
     createSendToken(user, 201, req, res);

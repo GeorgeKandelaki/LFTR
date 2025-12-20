@@ -1,7 +1,9 @@
 const express = require("express");
 const path = require("path");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const { xss } = require("express-xss-sanitizer");
 
 const userRouter = require("./routers/userRouter");
 const authRouter = require("./routers/authRouter");
@@ -9,7 +11,7 @@ const workoutRouter = require("./routers/workoutRouter");
 
 const app = express();
 
-const allowedOrigins = ["https://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173"];
 
 // CORS Options
 const corsOptions = {
@@ -31,8 +33,12 @@ app.use(cors(corsOptions));
 // Static Files
 app.use("/static", express.static(path.join(__dirname, "public")));
 
-// JSON parser
-app.use(express.json());
+// Parse req.body into JSON
+app.use(bodyParser.json({ limit: "10kb" }));
+// app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+
+// Protection Against XSS
+app.use(xss());
 
 // Cookie Parser
 app.use(cookieParser());

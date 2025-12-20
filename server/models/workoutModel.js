@@ -1,4 +1,5 @@
 const { default: mongoose, Schema } = require("mongoose");
+const Exercise = require("./exerciseModel");
 
 const workoutSchema = new mongoose.Schema(
     {
@@ -12,6 +13,12 @@ const workoutSchema = new mongoose.Schema(
     },
     { toJSON: true, toObject: true }
 );
+
+workoutSchema.pre("delete", function () {
+    if (!this.exercise.length) return;
+
+    this.exercises.forEach(async (exercise) => await Exercise.findByIdAndDelete(exercise.id));
+});
 
 const Workout = mongoose.model("Workout", workoutSchema);
 

@@ -36,6 +36,22 @@ exports.createWorkout = catchAsync(async function (req, res, next) {
     });
 });
 
-exports.editWorkout = catchAsync(async function (req, res, next) {});
+exports.editWorkout = catchAsync(async function (req, res, next) {
+    const workout = await Workout.findByIdAndUpdate(req.params.workoutId, req.body, { runValidators: true, new: true });
 
-exports.deleteWorkout = catchAsync(async function (req, res, next) {});
+    return res.status(200).json({
+        status: "success",
+        data: {
+            workout,
+        },
+    });
+});
+
+exports.deleteWorkout = catchAsync(async function (req, res, next) {
+    const doc = await Workout.findByIdAndDelete(req.params.workoutId);
+
+    return res.status(204).json({
+        status: "success",
+        data: null,
+    });
+});
