@@ -6,6 +6,7 @@ const exerciseRouter = require("./exerciseRouter");
 
 const Workout = require("../models/workoutModel");
 const validateResourceUser = require("../middlewares/validateResourceUser");
+const filterBody = require("../middlewares/filterBody");
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router
     .route("/:workoutId")
     .all(validateResourceUser("workoutId", Workout))
     .get(workoutController.getWorkout)
-    .patch(workoutController.editWorkout)
+    .patch(filterBody(["name", "startedAt", "finishedAt", "description", "exercises"]), workoutController.editWorkout)
     .delete(workoutController.deleteWorkout);
 
 // Exercise Routes

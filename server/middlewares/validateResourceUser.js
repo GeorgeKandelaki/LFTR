@@ -24,6 +24,7 @@ module.exports = function validateResourceUser(docIdField, Model) {
         if (req.params[docIdField]) docId = req.params[docIdField];
         else if (req.body[docIdField]) docId = req.body[docIdField];
 
+        console.log(docId, req.user);
         // 2. Fail early if no document ID is provided
         if (!docId) return next(new AppError("Owner Validation failed: Couldn't get the ID", 404));
 
@@ -34,7 +35,7 @@ module.exports = function validateResourceUser(docIdField, Model) {
         if (!doc) return next(new AppError("Owner Validation failed: No document with that ID"), 404);
 
         // 5. Verify ownership (resource must belong to the authenticated user)
-        if (doc?.user.id != req.user.id) return next(new AppError("This resource doesn't belong to requestor"), 401);
+        if (doc?.user != req.user.id) return next(new AppError("This resource doesn't belong to requestor"), 401);
 
         // 6. Ownership verified, allow request to proceed
         next();

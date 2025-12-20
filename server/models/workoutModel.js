@@ -9,7 +9,7 @@ const workoutSchema = new mongoose.Schema(
         finished: { type: Boolean, default: false },
         description: { type: String },
         startedAt: { type: Date, default: Date.now() },
-        finishedAt: { type: Date },
+        finishedAt: { type: Date, default: null },
     },
     { toJSON: true, toObject: true }
 );
