@@ -24,7 +24,6 @@ module.exports = function validateResourceUser(docIdField, Model) {
         if (req.params[docIdField]) docId = req.params[docIdField];
         else if (req.body[docIdField]) docId = req.body[docIdField];
 
-        console.log(docId, req.user);
         // 2. Fail early if no document ID is provided
         if (!docId) return next(new AppError("Owner Validation failed: Couldn't get the ID", 404));
 
@@ -39,5 +38,6 @@ module.exports = function validateResourceUser(docIdField, Model) {
 
         // 6. Ownership verified, allow request to proceed
         next();
+        console.log("---Ownership Verified!---");
     });
 };

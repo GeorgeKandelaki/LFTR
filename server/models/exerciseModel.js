@@ -10,6 +10,19 @@ const exerciseSchema = new mongoose.Schema(
     { toJSON: true, toObject: true }
 );
 
+exerciseSchema.post("save", async function (doc) {
+    const Workout = mongoose.model("Workout");
+
+    await Workout.findByIdAndUpdate(doc.workout, { $addToSet: { exercises: doc.id } });
+});
+
+exerciseSchema.pre("deleteOne", { document: true, query: false }, async function () {
+    if (!this.sets.length) return;
+    const Set = mongoose.model("Set");
+
+    await Set.deleteMany({ _id: { $in: this.sets } });
+});
+
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 
 module.exports = Exercise;

@@ -75,3 +75,5 @@ exports.signup = catchAsync(async (req, res, next) => {
 
     createSendToken(user, 201, req, res);
 });
+
+exports.checkIfLoggedIn = catchAsync(async (req, res, next) => {});

@@ -12,4 +12,19 @@ const setSchema = new mongoose.Schema(
     { toJSON: true, toObject: true }
 );
 
+setSchema.post("save", async function (doc) {
+    if (!doc.exercise) return;
+    const Exercise = mongoose.model("Exercise");
+
+    await Exercise.findByIdAndUpdate(doc.exercise, { $addToSet: { sets: doc.id } });
+});
+
+setSchema.pre("deleteOne", { document: true, query: false }, async function () {
+    if (!this.exercise) return;
+
+    await Exercise.findByIdAndUpdate(this.exercise, { $pull: { sets: this.id } });
+});
+
 const Set = mongoose.model("Set", setSchema);
+
+module.exports = Set;

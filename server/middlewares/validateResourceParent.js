@@ -15,18 +15,18 @@ const catchAsync = require("../utils/catchAsync");
  * Ownership should be validated separately on the parent resource.
  *
  * Parameters:
- * - field:
+ * - @param field:
  *   Name of the request field (req.params or req.body) containing
  *   the child document ID.
  *
- * - parentField:
+ * - @param parentField:
  *   Name of the request field (req.params or req.body) containing
  *   the parent document ID.
  *
- * - localIdField:
+ * - @param localIdField:
  *   Name of the field on the child document that stores the parent ID.
  *
- * - LocalModel:
+ * - @param LocalModel:
  *   Mongoose model of the child document.
  *
  * Validation flow:
@@ -59,6 +59,8 @@ module.exports = function validateResourceParent(field, parentField, localIdFiel
         // 3. Ensure the child belongs to the requested parent
         if (doc[localIdField] != parentId) return next(new AppError("This resource doesn't belong to requestor"), 401);
 
+        // 4. Parent verified, allow request to proceed
         next();
+        console.log("---Parent Verified!---");
     });
 };

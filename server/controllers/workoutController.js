@@ -48,7 +48,11 @@ exports.editWorkout = catchAsync(async function (req, res, next) {
 });
 
 exports.deleteWorkout = catchAsync(async function (req, res, next) {
-    const doc = await Workout.findByIdAndDelete(req.params.workoutId);
+    const workout = await Workout.findById(req.params.workoutId);
+
+    if (!workout) return next(new AppError("No workout found with that ID", 404));
+
+    workout.deleteOne();
 
     return res.status(204).json({
         status: "success",
