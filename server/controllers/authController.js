@@ -4,6 +4,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
+const { isObjEmpty } = require("../utils/utils");
+
 function signToken(payload) {
     return jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN || "90d",
@@ -23,7 +25,7 @@ function createSendToken(user, statusCode, req, res) {
 
     user.password = undefined;
 
-    res.status(statusCode).json({
+    return res.status(statusCode).json({
         status: "success",
         data: {
             user,
@@ -35,17 +37,15 @@ function createSendToken(user, statusCode, req, res) {
 exports.protect = catchAsync(async (req, res, next) => {
     let token;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer"))
-        token = req.headers.authorization.split(" ")[1];
+    if (req.headers.authorization?.startsWith("Bearer")) token = req.headers.authorization.split(" ")[1];
     else if (req.cookies?.jwt) token = req.cookies.jwt;
 
-    if (!token) return next(new AppError("You are not logged in! Please log in to get access.", 401));
+    if (!token) return next(new AppError("Not logged in", 401));
 
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
     const user = await User.findById(decoded.id);
 
-    if (!user) return next(new AppError("The user belonging to this token no longer exists.", 401));
+    if (!user) return next(new AppError("User no longer exists", 401));
 
     req.user = user;
     next();
@@ -76,4 +76,26 @@ exports.signup = catchAsync(async (req, res, next) => {
     createSendToken(user, 201, req, res);
 });
 
-exports.checkIfLoggedIn = catchAsync(async (req, res, next) => {});
+exports.checkIfLoggedIn = catchAsync(async (req, res) => {
+    let token;
+
+    if (req.headers.authorization?.startsWith("Bearer")) token = req.headers.authorization.split(" ")[1];
+    else if (req.cookies?.jwt) token = req.cookies.jwt;
+
+    if (!token) return res.status(200).json({ status: "success", isLoggedIn: false });
+
+    let decoded;
+
+    try {
+        decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    } catch {
+        return res.status(200).json({ status: "success", isLoggedIn: false });
+    }
+
+    const user = await User.findById(decoded.id);
+
+    return res.status(200).json({
+        status: "success",
+        isLoggedIn: !!user,
+    });
+});

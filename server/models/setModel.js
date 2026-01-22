@@ -9,7 +9,7 @@ const setSchema = new mongoose.Schema(
         completed: { type: Boolean, default: false },
         restTime: { type: Number, default: 180 },
     },
-    { toJSON: true, toObject: true }
+    { toJSON: true, toObject: true },
 );
 
 setSchema.post("save", async function (doc) {

@@ -53,7 +53,7 @@ exports.deleteSet = catchAsync(async (req, res, next) => {
 
     if (!set) return next(new AppError("No set found with that ID", 404));
 
-    set.deleteOne();
+    await set.deleteOne();
 
     return res.status(204).json({
         status: "success",

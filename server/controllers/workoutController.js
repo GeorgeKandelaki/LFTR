@@ -52,7 +52,7 @@ exports.deleteWorkout = catchAsync(async function (req, res, next) {
 
     if (!workout) return next(new AppError("No workout found with that ID", 404));
 
-    workout.deleteOne();
+    await workout.deleteOne();
 
     return res.status(204).json({
         status: "success",

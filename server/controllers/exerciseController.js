@@ -41,7 +41,7 @@ exports.updateExercise = catchAsync(async (req, res, next) => {
     const exercise = await Exercise.findByIdAndUpdate(
         req.params.exerciseId,
         { ...req.body },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
     );
 
     return res.status(201).json({
@@ -57,7 +57,9 @@ exports.deleteExercise = catchAsync(async (req, res, next) => {
 
     if (!exercise) return next(new AppError("No exercise found with that ID", 404));
 
-    exercise.deleteOne();
+    console.log(exercise);
+
+    await exercise.deleteOne();
 
     return res.status(204).json({ status: "success", data: null });
 });

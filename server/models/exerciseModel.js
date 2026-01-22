@@ -7,7 +7,7 @@ const exerciseSchema = new mongoose.Schema(
         name: { type: String, required: true, trim: true },
         sets: [{ type: Schema.Types.ObjectId, ref: "Set" }],
     },
-    { toJSON: true, toObject: true }
+    { toJSON: true, toObject: true },
 );
 
 exerciseSchema.post("save", async function (doc) {
