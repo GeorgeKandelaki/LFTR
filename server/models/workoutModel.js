@@ -10,8 +10,10 @@ const workoutSchema = new mongoose.Schema(
         startedAt: { type: Date, default: Date.now() },
         finishedAt: { type: Date, default: null },
     },
-    { toJSON: true, toObject: true }
+    { toJSON: true, toObject: true },
 );
+
+workoutSchema.index({ user: 1 });
 
 workoutSchema.pre("deleteOne", { document: true, query: false }, async function () {
     const Exercise = mongoose.model("Exercise");

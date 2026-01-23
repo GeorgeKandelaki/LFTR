@@ -10,6 +10,8 @@ const exerciseSchema = new mongoose.Schema(
     { toJSON: true, toObject: true },
 );
 
+exerciseSchema.index({ workout: 1, name: 1 });
+
 exerciseSchema.post("save", async function (doc) {
     const Workout = mongoose.model("Workout");
 

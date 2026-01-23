@@ -12,6 +12,8 @@ const setSchema = new mongoose.Schema(
     { toJSON: true, toObject: true },
 );
 
+setSchema.index({ exercise: 1 });
+
 setSchema.post("save", async function (doc) {
     if (!doc.exercise) return;
     const Exercise = mongoose.model("Exercise");
