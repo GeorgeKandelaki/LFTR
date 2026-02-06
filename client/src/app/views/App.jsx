@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
 
-import GlobalStyles from "./styles/GlobalStyles";
+import GlobalStyles from "../styles/GlobalStyles";
+import Home from "../../features/Home/views/HomeDetail";
 
 function App() {
     return (
@@ -10,11 +11,12 @@ function App() {
             <Toaster position="top-center" reverseOrder={false} />
             <BrowserRouter>
                 <Routes>
-                    <Route index element={<h1>HOME PAGE</h1>} />
+                    <Route index element={<Home />} />
 
                     <Route path="/login" />
                     <Route path="/signup" />
 
+                    {/* // Protected Routes*/}
                     <Route path="/profile" />
                     <Route path="/settings" />
                     <Route path="/dashboard" />

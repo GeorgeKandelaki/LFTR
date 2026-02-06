@@ -2,11 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
     :root {
-        &, &.light-mode{
-
-        }
-
-        &.dark-mode {
+        &, &.dark-mode {
             /* Core Backgrounds */
             --color-neutral-1000: #0a0e14; /* Deepest black/blue for background shadows */
             --color-neutral-900:  #0f172a; /* Main Page Background (Navy Charcoal) */
@@ -49,6 +45,10 @@ const GlobalStyles = createGlobalStyle`
             --primary-Button-cyan: var(--color-cyan-500 );
             --consistency-grid-dots: var(--color-accent-400);
             --inactive-upcoming-states: var(--color-neutral-600);
+        }
+
+        &.light-mode {
+
         }
     }
 
