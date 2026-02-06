@@ -7,7 +7,48 @@ const GlobalStyles = createGlobalStyle`
         }
 
         &.dark-mode {
+            /* Core Backgrounds */
+            --color-neutral-1000: #0a0e14; /* Deepest black/blue for background shadows */
+            --color-neutral-900:  #0f172a; /* Main Page Background (Navy Charcoal) */
+            --color-neutral-800:  #1e293b; /* Sidebar and Header background */
+            --color-neutral-700:  #1e293b; /* Primary Card surface */
+            --color-neutral-600:  #334155; /* Secondary Card surface / Hover states */
 
+            /* Borders & Dividers */
+            --color-border-subtle: #1e293b; 
+            --color-border-strong: #334155; 
+
+            /* Typography & Content */
+            --color-text-primary:   #f8fafc; /* Headings and key titles */
+            --color-text-secondary: #94a3b8; /* Subtext, labels, and descriptions */
+            --color-text-muted:     #64748b; /* Placeholders and disabled states */
+
+            /* The Primary Glow */
+            --color-accent-600: #2563eb; /* Deep Blue (Used in some button gradients) */
+            --color-accent-500: #3b82f6; /* Primary Button / Action color */
+            --color-accent-400: #60a5fa; /* Active icons / Consistency markers */
+            --color-accent-300: #93c5fd; /* Subtle highlights / Focus states */
+
+            /* The Cyan Glow (Specifically seen in 'Start' and Progress) */
+            --color-cyan-500:   #06b6d4; /* Vibrant Cyan for 'Start' buttons & Badges */
+            --color-cyan-400:   #22d3ee; /* Progress bar highlights */
+
+            /* Success (Greenish-Cyan) */
+            --color-success: #10b981; /* Completion checkmarks and status badges */
+
+            /* Error / Danger */
+            --color-error-bg: #1e1b1b; /* Dark red background for danger zones */
+            --color-error-500: #ef4444; /* 'Delete My Data' button and error text */
+
+            /* Warning / Streak */
+            --color-warning: #f59e0b; /* Amber for 'Current Streak' flame icon */
+
+            --main-background: var(--color-neutral-900 );
+            --Workout-cards: var(--color-neutral-700 );
+            --primary-Button-blue: var(--color-accent-500 );
+            --primary-Button-cyan: var(--color-cyan-500 );
+            --consistency-grid-dots: var(--color-accent-400);
+            --inactive-upcoming-states: var(--color-neutral-600);
         }
     }
 

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitTrack - User Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#306ee8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1c2433",
+                        "border-dark": "#2d3a4f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-white dark:bg-background-dark border-r border-slate-200 dark:border-border-dark flex flex-col fixed h-full z-10">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 rounded-xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight">FitTrack</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Stay consistent</p>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:text-white dark:bg-primary/20" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-sm font-medium">Workout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-medium">History</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-sm font-medium">Profile</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark flex flex-col gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 text-sm transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    New Workout
+                </button>
+<div class="flex items-center gap-3 px-2">
+<div class="size-9 rounded-full bg-slate-200 dark:bg-surface-dark border border-slate-300 dark:border-border-dark overflow-hidden bg-cover bg-center" data-alt="User profile avatar close up" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHmQ1ihRAhXwd1DS4v75EbdnoJeMD6aMhdxmf8JHVeSbYCVZD2tF0ZhcIapfxVSkYARrI3UsQquUYs6hf6T19x1kA_wS1VxYjUMqrxTFl04gmXJv6nKyVOtSuECL-BIh7oq13bRffObXxtAlsvi4X4OkJntipR77dQAU1i4dhet4dPdwPrlCYc0hxv_LaW9e9uZ0v9E0y48RncV8eUKgs7DqqN-UCWnM6u6qLON1qMjIw5dkPUEH-2vBxA4uso50bpku8vqelOinOT')"></div>
+<div class="flex flex-col">
+<span class="text-xs font-semibold">Alex Johnson</span>
+<span class="text-[10px] text-slate-500">Premium Member</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-64 p-8">
+<!-- Header Section -->
+<header class="flex flex-wrap justify-between items-center gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Welcome back, Alex</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">You've completed <span class="text-primary font-semibold">4 workouts</span> this week. Almost at your goal!</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        This Week
+                    </button>
+<button class="bg-primary/10 text-primary dark:bg-primary/20 px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/20 transition-colors">
+                        Quick Start
+                    </button>
+</div>
+</header>
+<!-- Stats Overview -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-6 rounded-xl">
+<div class="flex items-center justify-between mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Monthly Workouts</p>
+<span class="material-symbols-outlined text-primary">event_available</span>
+</div>
+<p class="text-3xl font-bold">18</p>
+<div class="mt-2 flex items-center gap-1 text-emerald-500 text-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        +12% from last month
+                    </div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-6 rounded-xl">
+<div class="flex items-center justify-between mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Current Streak</p>
+<span class="material-symbols-outlined text-orange-500">local_fire_department</span>
+</div>
+<p class="text-3xl font-bold">5 days</p>
+<div class="mt-2 text-slate-500 text-xs">Personal best: 14 days</div>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-6 rounded-xl">
+<div class="flex items-center justify-between mb-2">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Volume</p>
+<span class="material-symbols-outlined text-purple-500">fitness_center</span>
+</div>
+<p class="text-3xl font-bold">45,200 <span class="text-lg font-medium text-slate-500">kg</span></p>
+<div class="mt-2 text-slate-500 text-xs">Tracking across 12 muscle groups</div>
+</div>
+</section>
+<!-- Workout Grid -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold">Your Routine</h3>
+<a class="text-primary text-sm font-semibold hover:underline" href="#">View all workouts</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+<!-- Card 1: Today - Scheduled -->
+<div class="group bg-white dark:bg-surface-dark border border-primary/40 ring-1 ring-primary/20 dark:border-primary/30 rounded-xl overflow-hidden transition-all hover:shadow-xl hover:shadow-primary/5">
+<div class="h-32 bg-cover bg-center relative" data-alt="Close up of a barbell with weights in a dark gym" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkN3JgFqhKV-PkrXANvz3mQ3xJvxSFLBlPaIxKOgoKCiur2sBSfq2T0szmjAb63Zz_xrBQOAPmp4rS8d4WW4KstDuhvx3Pe1dg0Ohg5pH4WR9ENEyWLT5gpv5yaRkT5rBKhIRKaGkuZeUuu5DG6EKD1j4nattmbVrWxem6zDP6rVoh8qfYDDXBdj1qIcJPxKoOC2h8JEYWbRxFtLxmZuFvP_ptwcawXr3-KCAQXQsZprRZxcfKSEG55untg1D1bvqGRc33FJb_hnJa')">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Next Session</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-lg font-bold group-hover:text-primary transition-colors">Push A</h4>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors cursor-pointer">more_horiz</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                Today, 10:00 AM
+                            </p>
+<div class="flex items-center justify-between gap-3">
+<div class="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-[11px] font-semibold text-slate-500">SCHEDULED</div>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/90">Start</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Yesterday - Completed -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden transition-all hover:border-slate-300 dark:hover:border-slate-600">
+<div class="h-32 bg-cover bg-center opacity-70 grayscale-[50%] group-hover:grayscale-0 transition-all" data-alt="Athletic person doing leg exercises in a modern gym" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnOftAH52Ud30v8k-uYHIc5Cr9sv_1gGWgneFwAZdNPZ2OsQxR-a4sQ58mVAfjp08_DSo4Dju_X3edKSU3gsPpqfaZR-P63QfSv60pH92n4A6k2EqYyWsmQGU7qq7DVvtgSSXUoub4Bi39-BwjgHXTPbgPHItS6yq7VPy9UeZYNIXpKiHYScXcvBvN4sp3__wrdZQ2MorPgN4O7eChZdNPQc823AMbwOJ5TLSTGEYXkfgKxWJDwbeREcjfOGuKC8lUy7lGL_KKT9O6')"></div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-lg font-bold">Legs Day</h4>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer">check_circle</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                Yesterday, Oct 25
+                            </p>
+<div class="flex items-center justify-between gap-3">
+<div class="bg-emerald-100/50 dark:bg-emerald-900/20 px-2 py-1 rounded text-[11px] font-semibold text-emerald-600 dark:text-emerald-500">COMPLETED</div>
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary text-xs font-bold transition-colors">Details</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Tomorrow - Upcoming -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden transition-all">
+<div class="h-32 bg-cover bg-center opacity-70 grayscale-[50%]" data-alt="Dumbbells on a rack with soft gym lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2cdOphEN2stxy9K73asn0MAH-kbytJWfm5FlA-bRuMwMuPwh49bXUg5XGt_-syGjFq-HXcFxKtB_QkAxZY7QD8m58pb7p-75YsY2zjp3ZjQ7lpGIHuyyhgbiq1DvC2K8dgZ8CX9aATL3xly3pAMqJ4WDTIJViRYRKILm-sTjxYpnDIhG8Tg8I9Hh8tz_m0FAVHBOJQHoUcwzyd0OB39-79A6nO2-dOrsaqqgSldZYM8UWn39WGM4mNXCruOtW9zGnZd1pKN58ifZy')"></div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-lg font-bold">Pull B</h4>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">event</span>
+                                Tomorrow, Oct 27
+                            </p>
+<div class="flex items-center justify-between gap-3">
+<div class="bg-blue-100/50 dark:bg-blue-900/20 px-2 py-1 rounded text-[11px] font-semibold text-blue-600 dark:text-blue-400">UPCOMING</div>
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary text-xs font-bold transition-colors">Edit</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Previous - Completed -->
+<div class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-xl overflow-hidden transition-all">
+<div class="h-32 bg-cover bg-center opacity-70 grayscale-[50%]" data-alt="Functional fitness area with rings and ropes" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwAR4qXAdyb_Fmd4FnviiLPGEch6KoDcgpfVFzCSJ7aMIC8MMCGMNrFY6IrV8yU_A72ruCLCjGka8e42MeXmPyBbNvMdR7IoO05dmp_sbyDbuBZU_DtmGyZ8c-NUjKCTZHTosCuwq8yFqJTsCFHYFdEDFdLim9iXydfsKlflWbKQcVQpMU8RnkxATuQopE1A2zjtTpwgwf0Mdc04_r4UpPdXpbODQYtb92O9uhvns3x2Iwa8rDEEExuPmt2bv88Ys75L_ynWbtSTXq')"></div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-1">
+<h4 class="text-lg font-bold">Full Body</h4>
+<span class="material-symbols-outlined text-slate-400">check_circle</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                                Oct 24, 07:30 AM
+                            </p>
+<div class="flex items-center justify-between gap-3">
+<div class="bg-emerald-100/50 dark:bg-emerald-900/20 px-2 py-1 rounded text-[11px] font-semibold text-emerald-600 dark:text-emerald-500">COMPLETED</div>
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary text-xs font-bold transition-colors">Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Progress Insight -->
+<section class="mt-12">
+<div class="bg-primary/5 dark:bg-surface-dark border border-primary/20 dark:border-border-dark rounded-2xl p-8 flex flex-wrap lg:flex-nowrap items-center gap-8">
+<div class="flex-1">
+<h3 class="text-2xl font-bold mb-2">Keep the momentum going!</h3>
+<p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-6">You've hit 80% of your consistency target for October. Completing 2 more workouts this week will secure your "Peak Performance" badge.</p>
+<div class="w-full bg-slate-200 dark:bg-border-dark h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%"></div>
+</div>
+<div class="flex justify-between mt-2 text-xs font-bold text-slate-500 uppercase tracking-wide">
+<span>12 Workouts</span>
+<span class="text-primary">Target: 15</span>
+</div>
+</div>
+<div class="w-full lg:w-48 flex justify-center">
+<div class="size-32 rounded-full border-4 border-primary/20 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-primary text-6xl">emoji_events</span>
+<div class="absolute -bottom-2 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">80% Pro</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

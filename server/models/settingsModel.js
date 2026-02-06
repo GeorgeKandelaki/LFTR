@@ -10,7 +10,7 @@ const settingsSchema = new mongoose.Schema(
         },
         restTime: { type: Number, default: 180 },
     },
-    { toJSON: true, toObject: true }
+    { toJSON: true, toObject: true },
 );
 
 const Settings = mongoose.model("Settings", settingsSchema);
