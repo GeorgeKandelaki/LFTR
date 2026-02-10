@@ -60,7 +60,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
 
         /* Creating animations for dark mode */
-        transition: background-color 0.3s, border 0.3s;
+        /* transition: background-color 0.3s, border 0.3s; */
     }
 
     html {
@@ -68,12 +68,12 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-        font-family: "Poppins", sans-serif;
-        /* color: var(--color-grey-700); */
-        /* background-color: var(--color-grey-50); */
+        font-family: 'Inter', system-ui, sans-serif;
+        background-color: var(--color-neutral-900);
+        color: var(--color-text-primary);
 
 
-        transition: color 0.3s, background-color 0.3s;
+        /* transition: color 0.3s, background-color 0.3s; */
         min-height: 100vh;
         line-height: 1.5;
         font-size: 1.6rem;
@@ -143,8 +143,51 @@ const GlobalStyles = createGlobalStyle`
             font-size: 50%;
         }
     }
-
-
 `;
 
 export default GlobalStyles;
+
+/*
+1. Headings (Primary Text: #f8fafc)
+    Main Page Titles (Dashboard, History):
+    Size: 24px (1.5rem)
+    Weight: 700 (Bold)
+    Tracking: -0.02em
+    Section Headers (Chart Titles, Card Headers):
+    Size: 18px (1.125rem)
+    Weight: 600 (Semi-bold)
+    Sub-section Headers (Exercise Names):
+    Size: 16px (1rem)
+    Weight: 600 (Semi-bold)
+
+2. Body & UI Elements (Primary Text: #f8fafc)
+    Standard Body / Card Content:
+    Size: 14px (0.875rem) — This is the project's primary "default" for data.
+    Weight: 400 (Regular)
+    Navigation / Button Labels:
+    Size: 14px (0.875rem)
+    Weight: 500 (Medium)
+    Input Fields / Placeholders:
+    Size: 14px (0.875rem)
+    Weight: 400 (Regular)
+
+3. Support & Metadata (Secondary Text: #94a3b8)
+    Helper Text / Table Headers / Labels:
+    Size: 12px (0.75rem)
+    Weight: 500 (Medium)
+    Case: Often Uppercase for small labels to improve structure.
+    Captions / Small Stats:
+    Size: 11px (0.6875rem)
+    Weight: 400 (Regular)
+
+4. Summary Table
+    Element	Size	Weight	Color Variable
+    H1 (Titles)	24px	700	--color-text-primary
+    H2 (Headers)	18px	600	--color-text-primary
+    Body (Default)	14px	400	--color-text-primary
+    Buttons	14px	500	--color-text-primary
+    Captions	12px	500	--color-text-secondary
+
+5. Project Font Family
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+*/
