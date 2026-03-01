@@ -1,46 +1,95 @@
 import styled from "styled-components";
 
-const StyledHomeDetail = styled.div``;
+import Preview from "../../../shared/components/Preview";
+import Row from "../../../shared/components/Row";
+import Button from "../../../shared/components/Button";
+import Header from "../../../shared/components/Header";
+import Footer from "../../../shared/components/Footer";
+
+const StyledHomeDetail = styled.div`
+    padding: 2.4rem 1.8rem;
+`;
+
+const Hero = styled.section`
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const Description = styled.p`
+    font-size: 1.8rem;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+
+    margin-bottom: 4rem;
+`;
+
+const Watermark = styled.div`
+    display: flex;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    margin-bottom: 4.8rem;
+
+    & p {
+        border: 1px solid var(--color-border-strong);
+        border-radius: 2rem;
+        padding: 5px 1.2rem;
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        font-weight: 600;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    & span {
+        padding: 6px;
+        background-color: var(--color-accent-600);
+        border-radius: 50%;
+    }
+`;
+
+const Features = styled.section``;
 
 function HomeDetail() {
     return (
-        <StyledHomeDetail>
-            <header>
-                <div>{/* LOGO */}</div>
-                <nav>
-                    <ul>
-                        <li>Features</li>
-                        <li>Science</li>
-                        <li>Pricing</li>
-                    </ul>
-                </nav>
-                <div>
-                    <button>Login</button>
-                    <button>Sign up</button>
-                </div>
-            </header>
+        <>
+            <StyledHomeDetail>
+                <Header />
+                <Watermark>
+                    <p>
+                        <span></span>
+                        Minimalist Tracking V2.0
+                    </p>
+                </Watermark>
 
-            <main>
-                <section>{/* HERO SECTION */}</section>
-                <section>{/* Features */}</section>
+                <main>
+                    <Hero>
+                        {/* HERO SECTION */}
+                        <Row direction="vertical">
+                            <h1 style={{ fontSize: "12.8rem", letterSpacing: "-6px", lineHeight: "1.2" }}>Pulse</h1>
 
-                <section>{/* Preview */}</section>
-            </main>
+                            <Description>
+                                Train with intention, track without noise. <br />
+                                The workout companion built for clarity.
+                            </Description>
+                        </Row>
 
-            <footer>
-                <div>{/* LOGO */}</div>
+                        <Row gap="1.6rem">
+                            <Button>Start your journey &rarr;</Button>
+                            <Button variation="secondary">View Demo</Button>
+                        </Row>
+                    </Hero>
 
-                <nav>
-                    <ul>
-                        <li>Privacy</li>
-                        <li>Terms</li>
-                        <li>Twitter</li>
-                    </ul>
-                </nav>
+                    <Features>{/* Features */}</Features>
 
-                <p>&copy; {new Date().getFullYear()} Pulse Tracking. All rights reserved.</p>
-            </footer>
-        </StyledHomeDetail>
+                    <Preview>{/* Preview */}</Preview>
+                </main>
+            </StyledHomeDetail>
+            <Footer />
+        </>
     );
 }
 

@@ -40,9 +40,9 @@ const GlobalStyles = createGlobalStyle`
             --color-warning: #f59e0b; /* Amber for 'Current Streak' flame icon */
 
             --main-background: var(--color-neutral-900 );
-            --Workout-cards: var(--color-neutral-700 );
-            --primary-Button-blue: var(--color-accent-500 );
-            --primary-Button-cyan: var(--color-cyan-500 );
+            --workout-cards: var(--color-neutral-700 );
+            --primary-button-blue: var(--color-accent-500 );
+            --primary-button-cyan: var(--color-cyan-500 );
             --consistency-grid-dots: var(--color-accent-400);
             --inactive-upcoming-states: var(--color-neutral-600);
         }
