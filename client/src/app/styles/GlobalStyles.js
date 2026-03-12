@@ -71,6 +71,7 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'Inter', system-ui, sans-serif;
         background-color: var(--color-neutral-900);
         color: var(--color-text-primary);
+        position: relative;
 
 
         /* transition: color 0.3s, background-color 0.3s; */

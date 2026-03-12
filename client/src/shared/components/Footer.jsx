@@ -1,22 +1,29 @@
 import styled from "styled-components";
 import Nav from "./Nav";
+import Logo from "./Logo";
 
 const StyledFooter = styled.footer`
+    padding: 2.8rem 3.2rem;
     width: 100%;
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    transform: translateY(-50%);
     border-top: 2px solid var(--color-border-strong);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 function Footer() {
     return (
         <StyledFooter>
-            <div>{/* LOGO */}</div>
+            <Logo />
 
             <Nav items={["Privacy", "Terms", "Twitter"]} />
 
-            <p>&copy; {new Date().getFullYear()} Pulse Tracking. All rights reserved.</p>
+            <p style={{ color: "var(--color-text-secondary)", fontSize: "1.4rem", fontWeight: "500" }}>
+                &copy; {new Date().getFullYear()} Pulse Tracking. All rights reserved.
+            </p>
         </StyledFooter>
     );
 }

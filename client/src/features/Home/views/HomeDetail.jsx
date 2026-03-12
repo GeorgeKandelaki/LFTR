@@ -6,6 +6,12 @@ import Button from "../../../shared/components/Button";
 import Header from "../../../shared/components/Header";
 import Footer from "../../../shared/components/Footer";
 
+import { GiCheckedShield } from "react-icons/gi";
+import { MdAnalytics } from "react-icons/md";
+import { RiCollageFill } from "react-icons/ri";
+
+import PreviewImage from "../../../../public/static/screen.png";
+
 const StyledHomeDetail = styled.div`
     padding: 2.4rem 1.8rem;
 `;
@@ -51,7 +57,43 @@ const Watermark = styled.div`
     }
 `;
 
-const Features = styled.section``;
+const Features = styled.section`
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+
+    margin-top: 12rem;
+`;
+
+const Feature = styled.div`
+    border: 1px solid var(--color-border-strong);
+    border-radius: 1rem;
+    padding: 2.4rem 3rem;
+    text-align: center;
+    max-width: 35rem;
+    box-shadow: 0 0 1rem var(--color-neutral-1000);
+`;
+
+const FeatureIcon = styled.div`
+    display: inline-block;
+    background-color: var(--color-neutral-700);
+
+    margin-bottom: 1.2rem;
+    padding: 1.4rem;
+    border-radius: 1rem;
+    line-height: 0;
+`;
+
+const FeatureHeading = styled.h3`
+    font-size: 1.8rem;
+`;
+
+const FeatureDescription = styled.p`
+    font-size: 1.4rem;
+    color: var(--color-text-secondary);
+`;
 
 function HomeDetail() {
     return (
@@ -65,7 +107,7 @@ function HomeDetail() {
                     </p>
                 </Watermark>
 
-                <main>
+                <main style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <Hero>
                         {/* HERO SECTION */}
                         <Row direction="vertical">
@@ -83,9 +125,38 @@ function HomeDetail() {
                         </Row>
                     </Hero>
 
-                    <Features>{/* Features */}</Features>
+                    <Features>
+                        {/* Features */}
+                        <Feature>
+                            <FeatureIcon>
+                                <RiCollageFill color="var(--color-accent-500)" size="2rem" />
+                            </FeatureIcon>
 
-                    <Preview>{/* Preview */}</Preview>
+                            <FeatureHeading>Clean UI</FeatureHeading>
+                            <FeatureDescription>Optimized for rapid logging without distractions.</FeatureDescription>
+                        </Feature>
+                        <Feature>
+                            <FeatureIcon>
+                                <MdAnalytics color="var(--color-accent-500)" size="2rem" />
+                            </FeatureIcon>
+                            <FeatureHeading>Pure Data</FeatureHeading>
+                            <FeatureDescription>
+                                Deep insights into your volume and progressive overload.
+                            </FeatureDescription>
+                        </Feature>
+                        <Feature>
+                            <FeatureIcon>
+                                <GiCheckedShield color="var(--color-accent-500)" size="2rem" />
+                            </FeatureIcon>
+                            <FeatureHeading>Privacy First</FeatureHeading>
+                            <FeatureDescription>
+                                Your data is yours. Secure, encrypted and offline-ready.
+                            </FeatureDescription>
+                        </Feature>
+                    </Features>
+
+                    {/* Preview */}
+                    <Preview imageURL={PreviewImage} width="1100" />
                 </main>
             </StyledHomeDetail>
             <Footer />
