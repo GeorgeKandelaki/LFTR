@@ -4,6 +4,8 @@ import Row from "./Row";
 import Button from "./Button";
 import Nav from "./Nav";
 
+import { useNavigate } from "react-router";
+
 const StyledHeader = styled.header`
     display: flex;
     justify-content: space-between;
@@ -12,14 +14,20 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
+    const navigate = useNavigate();
+
     return (
         <StyledHeader>
             <Logo />
             <Nav />
 
             <Row>
-                <Button size="small">Login</Button>
-                <Button size="small">Sign up</Button>
+                <Button size="small" onClick={() => navigate("/login")}>
+                    Login
+                </Button>
+                <Button size="small" onClick={() => navigate("/signup")}>
+                    Sign up
+                </Button>
             </Row>
         </StyledHeader>
     );

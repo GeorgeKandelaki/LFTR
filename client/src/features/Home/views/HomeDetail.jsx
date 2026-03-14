@@ -10,7 +10,7 @@ import { GiCheckedShield } from "react-icons/gi";
 import { MdAnalytics } from "react-icons/md";
 import { RiCollageFill } from "react-icons/ri";
 
-import PreviewImage from "../../../../public/static/screen.png";
+import PreviewImage from "../../../../static/screen.png";
 
 const StyledHomeDetail = styled.div`
     padding: 2.4rem 1.8rem;
