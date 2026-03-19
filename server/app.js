@@ -48,4 +48,8 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/workouts", workoutRouter);
 app.use("/api/v1/auth", authRouter);
 
+app.use("/", (req, res, next) => {
+    res.send("Works!!!");
+    next();
+});
 module.exports = app;

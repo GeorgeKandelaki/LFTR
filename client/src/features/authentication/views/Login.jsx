@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import Row from "../../../shared/components/Row";
 import Input from "../../../shared/components/Input";
+import Button from "../../../shared/components/Button";
+import { BiSolidCircleThreeQuarter } from "react-icons/bi";
+import { useNavigate } from "react-router";
 
 import { useState } from "react";
 
 const StyledLogin = styled.div`
-    margin-top: 12.8rem;
+    margin: 12.8rem 1rem 2.4rem 1rem;
 
     display: flex;
     align-items: center;
@@ -24,21 +27,45 @@ const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 3.2rem;
+    gap: 2.4rem;
+
+    max-width: 45rem;
+    width: 100%;
 `;
 
-const Icon = styled.div``;
+const Icon = styled.div`
+    border-radius: 1.4rem;
+    letter-spacing: 0;
+    justify-self: center;
+    background-color: var(--color-neutral-700);
+    padding: 1.2rem 1.4rem 1rem 1.4rem;
+    margin-bottom: 1.2rem;
+`;
 
-const Label = styled.label``;
+const Label = styled.label`
+    font-weight: 500;
+`;
+
+const FormRow = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+`;
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [keepSignedIn, setKeepSignedIn] = useState(false);
+
+    const navigate = useNavigate();
 
     return (
         <StyledLogin>
             <div>
-                <Icon></Icon>
+                <Icon>
+                    <BiSolidCircleThreeQuarter size="50" color="var(--color-accent-500)" />
+                </Icon>
                 <h1 style={{ textAlign: "center" }}>Welcome Back</h1>
                 <p
                     style={{
@@ -53,7 +80,7 @@ function Login() {
             </div>
 
             <StyledForm>
-                <Row direction="vertical">
+                <FormRow>
                     <Label>Email Address</Label>
                     <Input
                         type="email"
@@ -61,8 +88,9 @@ function Login() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="name@workout.com"
                     />
-                </Row>
-                <Row direction="vertical">
+                </FormRow>
+
+                <FormRow>
                     <Label>Password</Label>
                     <Input
                         type="password"
@@ -70,8 +98,33 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="********"
                     />
+                </FormRow>
+
+                <Row>
+                    <Input
+                        type="checkbox"
+                        value={keepSignedIn}
+                        onChange={(e) => setKeepSignedIn(e.target.value)}
+                        style={{ width: "2.4rem" }}
+                    />
+
+                    <Label>Keep me Signed In</Label>
                 </Row>
+
+                <Button style={{ width: "100%" }}>Sign In</Button>
             </StyledForm>
+
+            <Row>
+                <p style={{ color: "var(--color-text-secondary)", textAlign: "center" }}>
+                    Don't have an account?{" "}
+                    <span
+                        style={{ color: "var(--color-accent-500)", fontWeight: "600", cursor: "pointer" }}
+                        onClick={() => navigate("/signup")}
+                    >
+                        Create Account
+                    </span>
+                </p>
+            </Row>
         </StyledLogin>
     );
 }

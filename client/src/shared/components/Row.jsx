@@ -1,8 +1,14 @@
-import styled from "styled-components";
-
-function Row({ direction = "horizontal", gap = "10px", children }) {
+function Row({ direction = "horizontal", gap = "10px", children, styles }) {
     return (
-        <div style={{ display: "flex", flexDirection: `${direction === "vertical" ? "column" : "row"}`, gap }}>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: `${direction === "vertical" ? "column" : "row"}`,
+                gap,
+                // width: "100%",
+                ...styles,
+            }}
+        >
             {children}
         </div>
     );
