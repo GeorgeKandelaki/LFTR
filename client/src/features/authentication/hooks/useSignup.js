@@ -3,7 +3,11 @@ import { signup } from "../services/authentication";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
+import { useAuth } from "../../../shared/context/AuthContext";
+
 export default function useSignup() {
+    const { setUser } = useAuth();
+
     const navigate = useNavigate();
 
     const {
@@ -13,13 +17,13 @@ export default function useSignup() {
         mutate,
     } = useMutation({
         mutationFn: signup,
-        onSuccess: () => {
-            setTimeout(() => navigate("/home"), 2000);
+        onSuccess: (user) => {
+            setUser(user);
+
+            setTimeout(() => navigate("/dashboard"), 1500);
             toast.success("Account was created successfully");
         },
-        onError: (err) => {
-            toast.error(err.message);
-        },
+        onError: (err) => toast.error(err.message),
     });
 
     return { error, user, isPending, mutate };

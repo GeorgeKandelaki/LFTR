@@ -6,6 +6,7 @@ import { BiSolidCircleThreeQuarter } from "react-icons/bi";
 import { useNavigate } from "react-router";
 
 import { useState } from "react";
+import useLogin from "../hooks/useLogin";
 
 const StyledLogin = styled.div`
     margin: 12.8rem 1rem 2.4rem 1rem;
@@ -58,7 +59,15 @@ function Login() {
     const [password, setPassword] = useState("");
     const [keepSignedIn, setKeepSignedIn] = useState(false);
 
+    const { mutate, isPending } = useLogin();
+
     const navigate = useNavigate();
+
+    function onSubmit(e) {
+        e.preventDefault();
+
+        mutate({ email, password });
+    }
 
     return (
         <StyledLogin>
@@ -79,7 +88,7 @@ function Login() {
                 </p>
             </div>
 
-            <StyledForm>
+            <StyledForm onSubmit={onSubmit}>
                 <FormRow>
                     <Label>Email Address</Label>
                     <Input
@@ -111,7 +120,9 @@ function Login() {
                     <Label>Keep me Signed In</Label>
                 </Row>
 
-                <Button style={{ width: "100%" }}>Sign In</Button>
+                <Button disabled={isPending} style={{ width: "100%" }}>
+                    {isPending ? "Logging In..." : "Sign In"}
+                </Button>
             </StyledForm>
 
             <Row>

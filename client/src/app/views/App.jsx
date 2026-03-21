@@ -8,6 +8,7 @@ import Signup from "../../features/authentication/views/Signup";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AuthProvider } from "../../shared/context/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -18,19 +19,21 @@ function App() {
                 <BrowserRouter>
                     <GlobalStyles />
                     <Toaster position="top-center" reverseOrder={false} />
-                    <Routes>
-                        <Route index element={<Home />} />
+                    <AuthProvider>
+                        <Routes>
+                            <Route index element={<Home />} />
 
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Signup />} />
 
-                        {/* // Protected Routes*/}
-                        <Route path="/profile" />
-                        <Route path="/settings" />
-                        <Route path="/dashboard" />
-                        <Route path="/history" />
-                        <Route path="/workout" />
-                    </Routes>
+                            {/* // Protected Routes*/}
+                            <Route path="/profile" />
+                            <Route path="/settings" />
+                            <Route path="/dashboard" />
+                            <Route path="/history" />
+                            <Route path="/workout" />
+                        </Routes>
+                    </AuthProvider>
                 </BrowserRouter>
 
                 <ReactQueryDevtools initialIsOpen={false} />

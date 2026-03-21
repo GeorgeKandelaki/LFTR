@@ -11,7 +11,8 @@ export async function login({ email, password }) {
             data: { email, password },
             withCredentials: true,
         });
-        console.log(response);
+
+        return response.data;
     } catch (err) {
         console.error(err);
         toast.error(err.response?.data?.message || err.message);
@@ -27,7 +28,8 @@ export async function signup({ email, name, password }) {
             data: { email, password, name },
             withCredentials: true,
         });
-        console.log(response);
+
+        return response.data;
     } catch (err) {
         console.error(err);
         toast.error(err.response?.data?.message || err.message);

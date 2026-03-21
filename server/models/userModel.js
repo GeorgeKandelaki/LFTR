@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
         },
         avatar: String,
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
 userSchema.pre("save", async function () {
