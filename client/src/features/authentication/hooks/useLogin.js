@@ -17,8 +17,8 @@ export default function useLogin() {
         isPending,
     } = useMutation({
         mutationFn: login,
-        onSuccess: (user) => {
-            setUser(user);
+        onSuccess: (data) => {
+            setUser(data.data.user);
 
             setTimeout(() => navigate("/dashboard"), 1500);
             toast.success("Successfully Logged In");

@@ -17,8 +17,8 @@ export default function useSignup() {
         mutate,
     } = useMutation({
         mutationFn: signup,
-        onSuccess: (user) => {
-            setUser(user);
+        onSuccess: (data) => {
+            setUser(data.data.user);
 
             setTimeout(() => navigate("/dashboard"), 1500);
             toast.success("Account was created successfully");
