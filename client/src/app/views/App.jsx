@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
 
+import ProtectedRoute from "../../shared/components/ProtectedRoute";
 import GlobalStyles from "../styles/GlobalStyles";
 import Home from "../../features/Home/views/HomeDetail";
 import Login from "../../features/authentication/views/Login";
@@ -10,11 +11,11 @@ import Profile from "../../features/Profile/views/Profile";
 import Settings from "../../features/Settings/views/Settings";
 import Dashboard from "../../features/Dashboard/views/Dashboard";
 import History from "../../features/History/views/History";
+import Workout from "../../features/Workout/views/Workout";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "../../shared/context/AuthContext";
-import ProtectedRoute from "../../shared/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ function App() {
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/history" element={<History />} />
                                 <Route path="/workouts" element={<Workouts />} />
+                                <Route path="currentWorkout" element={<Workout />} />
                             </Route>
                         </Routes>
                     </AuthProvider>

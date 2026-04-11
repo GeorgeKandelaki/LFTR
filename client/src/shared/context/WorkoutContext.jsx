@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const workout = {
     name: "",
@@ -6,10 +6,19 @@ const workout = {
     startedAt: "",
     finishedAt: "",
     exercises: [],
+    workoutStarted: false,
 };
 
 function reducer(state, action) {
     switch (action.type) {
+        case "workout/start": {
+            return { ...state, workoutStarted: true, startedAt: Date.now };
+        }
+
+        case "workout/finish": {
+            return { ...state, workoutStarted: false, finishedAt: Date.now };
+        }
+
         case "workout/set_name": {
             return { ...state, name: action.payload.name };
         }
