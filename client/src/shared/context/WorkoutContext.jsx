@@ -1,8 +1,8 @@
 import { createContext, useContext, useReducer } from "react";
 
-const workout = {
-    name: "",
-    description: "",
+const initial = {
+    name: "New Workout",
+    description: "No Description",
     startedAt: "",
     finishedAt: "",
     exercises: [],
@@ -12,11 +12,11 @@ const workout = {
 function reducer(state, action) {
     switch (action.type) {
         case "workout/start": {
-            return { ...state, workoutStarted: true, startedAt: Date.now };
+            return { ...state, workoutStarted: true, startedAt: Date.now() };
         }
 
         case "workout/finish": {
-            return { ...state, workoutStarted: false, finishedAt: Date.now };
+            return { ...state, workoutStarted: false, finishedAt: Date.now() };
         }
 
         case "workout/set_name": {
@@ -63,9 +63,9 @@ function reducer(state, action) {
 const WorkoutContext = createContext(null);
 
 function WorkoutProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, workout);
+    const [workout, dispatch] = useReducer(reducer, initial);
 
-    return <WorkoutContext.Provider value={{ ...state, dispatch }}>{children}</WorkoutContext.Provider>;
+    return <WorkoutContext.Provider value={{ workout, dispatch }}>{children}</WorkoutContext.Provider>;
 }
 
 function useWorkout() {

@@ -8,7 +8,7 @@ const workoutSchema = new mongoose.Schema(
         exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
         finished: { type: Boolean, default: false },
         description: { type: String },
-        startedAt: { type: Date, default: Date.now },
+        startedAt: { type: Date, default: Date.now() },
 
         finishedAt: { type: Date, default: null },
     },

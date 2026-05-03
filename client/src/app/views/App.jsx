@@ -16,6 +16,7 @@ import Workout from "../../features/Workout/views/Workout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "../../shared/context/AuthContext";
+import { WorkoutProvider } from "../../shared/context/WorkoutContext";
 
 const queryClient = new QueryClient();
 
@@ -27,24 +28,26 @@ function App() {
                     <GlobalStyles />
                     <Toaster position="top-center" reverseOrder={false} />
                     <AuthProvider>
-                        <Routes>
-                            <Route path="*" element={<h1>404: This Route was not found!</h1>} />
+                        <WorkoutProvider>
+                            <Routes>
+                                <Route path="*" element={<h1>404: This Route was not found!</h1>} />
 
-                            <Route index element={<Home />} />
+                                <Route index element={<Home />} />
 
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
 
-                            {/* // Protected Routes*/}
-                            <Route element={<ProtectedRoute />}>
-                                <Route path="/profile" element={<Profile />} />
-                                <Route path="/settings" element={<Settings />} />
-                                <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/history" element={<History />} />
-                                <Route path="/workouts" element={<Workouts />} />
-                                <Route path="currentWorkout" element={<Workout />} />
-                            </Route>
-                        </Routes>
+                                {/* // Protected Routes*/}
+                                <Route element={<ProtectedRoute />}>
+                                    <Route path="/profile" element={<Profile />} />
+                                    <Route path="/settings" element={<Settings />} />
+                                    <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/history" element={<History />} />
+                                    <Route path="/workouts" element={<Workouts />} />
+                                    <Route path="currentWorkout" element={<Workout />} />
+                                </Route>
+                            </Routes>
+                        </WorkoutProvider>
                     </AuthProvider>
                 </BrowserRouter>
 
