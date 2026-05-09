@@ -10,10 +10,18 @@ const StyledSet = styled.div`
 
 const Index = styled.p`
     grid-column: 1 / 2;
+
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
 `;
 
 const PreviousWeight = styled.p`
     grid-column: 2 / 3;
+
+    font-style: italic;
+    color: var(--color-text-secondary);
+    font-size: 1.8rem;
 `;
 
 const WeightInput = styled.input`
@@ -50,10 +58,10 @@ function Set({ set, index }) {
 
     return (
         <StyledSet>
-            <Index>1</Index>
-            <PreviousWeight>100kg x 8</PreviousWeight>
-            <WeightInput type="number" placeholder="213" />
-            <RepsInput type="number" />
+            <Index>{index}</Index>
+            <PreviousWeight>--</PreviousWeight>
+            <WeightInput type="number" placeholder="--" />
+            <RepsInput type="number" placeholder="--" />
             <CompletedStatus type="checkbox" />
         </StyledSet>
     );

@@ -3,6 +3,7 @@ import { useWorkout } from "../../../shared/context/WorkoutContext";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 
+import Exercise from "../../../shared/models/Exercise";
 import WorkoutProgress from "./WorkoutProgress";
 import WorkoutExercises from "./WorkoutExercises";
 
@@ -26,9 +27,31 @@ const WorkoutDescription = styled.p`
 
 const WorkoutFinalActions = styled.div``;
 
+const AddExerciseButton = styled.button`
+    width: 100%;
+    background-color: var(--color-neutral-700);
+    border: none;
+    border-top: 1px solid var(--color-border-strong);
+    color: var(--color-accent-600);
+    font-weight: 600;
+    padding: 2.4rem 3.2rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 2rem;
+    margin-top: 4.8rem;
+
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+`;
+
 function Workout() {
     const navigate = useNavigate();
-    const { workout } = useWorkout();
+    const { workout, dispatch } = useWorkout();
 
     useEffect(
         function () {
@@ -50,7 +73,19 @@ function Workout() {
             <WorkoutProgress />
 
             {/* <--- WORKOUT EXERCISES/SETS ---> */}
-            <WorkoutExercises />
+            <WorkoutExercises exercises={workout.exercises} />
+
+            {/* <--- ADD EXERCISE BUTTON ---> */}
+            <AddExerciseButton
+                onClick={() => {
+                    dispatch({
+                        type: "exercise/create",
+                        payload: { exercise: new Exercise("New Exercise", [], Date.now()) },
+                    });
+                }}
+            >
+                + Add Exercise
+            </AddExerciseButton>
 
             {/* <--- FINISH/REMOVE/DISCARD WORKOUT ---> */}
             <WorkoutFinalActions></WorkoutFinalActions>

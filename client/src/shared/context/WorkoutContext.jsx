@@ -26,13 +26,6 @@ function reducer(state, action) {
             return { ...state, description: action.payload.description };
         }
 
-        case "workout/set_startedAt": {
-            return { ...state, startedAt: action.payload.startedAt };
-        }
-
-        case "workout/set_finishedAt": {
-            return { ...state, finishedAt: action.payload.finishedAt };
-        }
         case "exercise/create": {
             return { ...state, exercises: [...state.exercises, action.payload.exercise] };
         }

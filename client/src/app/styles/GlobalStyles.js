@@ -45,6 +45,8 @@ const GlobalStyles = createGlobalStyle`
             --primary-button-cyan: var(--color-cyan-500 );
             --consistency-grid-dots: var(--color-accent-400);
             --inactive-upcoming-states: var(--color-neutral-600);
+            --backdrop-color: rgba(0, 0, 0, 0.3);
+
         }
 
         &.light-mode {

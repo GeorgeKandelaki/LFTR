@@ -1,4 +1,6 @@
-export class Exercise {
+import Set from "./Set";
+
+export default class Exercise {
     constructor(name, sets, performedAt = Date.now()) {
         this.name = name;
         this.sets = sets;

@@ -81,8 +81,8 @@ function Exercise({ exercise, index }) {
     return (
         <StyledExercise>
             <ExerciseHeader>
-                <ExerciseIndex>1</ExerciseIndex>
-                <ExerciseName>Bench Press</ExerciseName>
+                <ExerciseIndex>{index + 1}</ExerciseIndex>
+                <ExerciseName>{exercise.name}</ExerciseName>
             </ExerciseHeader>
 
             <SetLabelTable>
