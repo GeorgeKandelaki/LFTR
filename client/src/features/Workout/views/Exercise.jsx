@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
+import SetClass from "../../../shared/models/Set";
 import Set from "./Set";
+import { useWorkout } from "../../../shared/context/WorkoutContext";
 
 const StyledExercise = styled.div`
     display: grid;
@@ -53,8 +55,6 @@ const Sets = styled.div`
     grid-column: 1 / -1;
     grid-row: 3 / 4;
 
-    padding: 2.4rem 2.6rem;
-
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -72,16 +72,28 @@ const AddSetBtn = styled.button`
     grid-column: 1 / -1;
     background-color: var(--color-neutral-700);
     border: none;
-    border-top: 1px solid var(--color-border-strong);
+    /* border-top: 1px solid var(--color-border-strong); */
     color: var(--color-accent-600);
     font-weight: 600;
+
+    transition: opacity 0.3s;
+
+    &:hover {
+        opacity: 0.5;
+    }
 `;
 
 function Exercise({ exercise, index }) {
+    const { dispatch } = useWorkout();
+
+    function addSet() {
+        dispatch({ type: "set/create", payload: { newSet: new SetClass(), exerciseId: exercise.id } });
+    }
+
     return (
         <StyledExercise>
             <ExerciseHeader>
-                <ExerciseIndex>{index + 1}</ExerciseIndex>
+                <ExerciseIndex>{index}</ExerciseIndex>
                 <ExerciseName>{exercise.name}</ExerciseName>
             </ExerciseHeader>
 
@@ -101,10 +113,12 @@ function Exercise({ exercise, index }) {
             </SetLabelTable>
 
             <Sets>
-                <Set></Set>
+                {exercise.sets.map((set, i) => (
+                    <Set set={set} exerciseId={exercise.id} index={i + 1} key={set.id} />
+                ))}
             </Sets>
 
-            <AddSetBtn>+ ADD SET </AddSetBtn>
+            <AddSetBtn onClick={() => addSet()}>+ ADD SET</AddSetBtn>
         </StyledExercise>
     );
 }

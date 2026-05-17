@@ -12,7 +12,7 @@ function WorkoutExercises({ exercises }) {
     return (
         <StyledWorkoutExercises>
             {exercises.map((exercise, i) => (
-                <Exercise exercise={exercise} key={exercise.id} index={i} />
+                <Exercise exercise={exercise} key={exercise.id} index={i + 1} />
             ))}
         </StyledWorkoutExercises>
     );

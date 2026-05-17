@@ -39,11 +39,38 @@ function reducer(state, action) {
         }
 
         case "set/create": {
-            return { ...state };
+            return {
+                ...state,
+                exercises: state.exercises.map((exercise) => {
+                    if (exercise.id !== action.payload.exerciseId) return exercise;
+
+                    return {
+                        ...exercise,
+                        sets: [...exercise.sets, action.payload.newSet],
+                    };
+                }),
+            };
         }
 
         case "set/update": {
-            return { ...state };
+            console.log(action.payload);
+            console.log(state);
+
+            return {
+                ...state,
+                exercises: state.exercises.map((exercise) => {
+                    if (exercise.id !== action.payload.exerciseId) return exercise;
+
+                    return {
+                        ...exercise,
+                        sets: exercise.sets.map((set) => {
+                            if (set.id !== action.payload.setId) return set;
+
+                            return { ...set, ...action.payload.updateObj };
+                        }),
+                    };
+                }),
+            };
         }
 
         case "set/delete": {

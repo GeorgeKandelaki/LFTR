@@ -1,11 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useWorkout } from "../../../shared/context/WorkoutContext";
 
 const StyledSet = styled.div`
     display: grid;
     grid-template-columns: 0.5fr 1fr 1fr 1fr 0.5fr;
     align-items: center;
     justify-items: start;
+
+    padding: 2.4rem 2.6rem;
+    border-bottom: 1px solid var(--color-border-strong);
 `;
 
 const Index = styled.p`
@@ -33,6 +37,7 @@ const WeightInput = styled.input`
 
     grid-column: 3 / 4;
 `;
+Set;
 
 const RepsInput = styled.input`
     width: 9.5rem;
@@ -51,18 +56,56 @@ const CompletedStatus = styled.input`
     transform: scale(2);
 `;
 
-function Set({ set, index }) {
-    const [weight, setWeight] = useState(0);
-    const [reps, setReps] = useState(0);
-    const [status, setStatus] = useState(false);
+function Set({ set, exerciseId, index }) {
+    const { dispatch } = useWorkout();
+
+    const [weight, setWeight] = useState(set.weight);
+    const [reps, setReps] = useState(set.reps);
+    const [completed, setCompleted] = useState(set.completed || false);
+
+    function updateSet(updateObj) {
+        dispatch({
+            type: "set/update",
+            payload: {
+                setId: set.id,
+                exerciseId,
+                updateObj,
+            },
+        });
+    }
+
+    function deleteSet() {}
 
     return (
         <StyledSet>
             <Index>{index}</Index>
-            <PreviousWeight>--</PreviousWeight>
-            <WeightInput type="number" placeholder="--" />
-            <RepsInput type="number" placeholder="--" />
-            <CompletedStatus type="checkbox" />
+            <PreviousWeight>{set.PreviousWeight || "-- X --"}</PreviousWeight>
+            <WeightInput
+                type="number"
+                placeholder="--"
+                value={weight}
+                onChange={(e) => {
+                    setWeight(e.target.value);
+                    updateSet({ weight: e.target.value });
+                }}
+            />
+            <RepsInput
+                type="number"
+                placeholder="--"
+                value={reps}
+                onChange={(e) => {
+                    setReps(e.target.value);
+                    updateSet({ reps: e.target.value });
+                }}
+            />
+            <CompletedStatus
+                type="checkbox"
+                checked={completed}
+                onChange={(e) => {
+                    setCompleted(e.target.value);
+                    updateSet({ completed: e.target.checked });
+                }}
+            />
         </StyledSet>
     );
 }

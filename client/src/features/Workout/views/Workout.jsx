@@ -70,7 +70,7 @@ function Workout() {
             </WorkoutHeader>
 
             {/* <--- WORKOUT PROGRESS BAR ---> */}
-            <WorkoutProgress />
+            <WorkoutProgress maxExercises={workout.exercises.length} finishedExercise={0} />
 
             {/* <--- WORKOUT EXERCISES/SETS ---> */}
             <WorkoutExercises exercises={workout.exercises} />
@@ -80,7 +80,7 @@ function Workout() {
                 onClick={() => {
                     dispatch({
                         type: "exercise/create",
-                        payload: { exercise: new Exercise("New Exercise", [], Date.now()) },
+                        payload: { exercise: new Exercise("New Exercise", [], false, Date.now()) },
                     });
                 }}
             >
