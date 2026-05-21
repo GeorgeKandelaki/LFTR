@@ -9,7 +9,6 @@ function ProtectedRoute() {
     if (isPending) return "Loading...";
 
     if (!isLoggedIn) {
-        toast.error("You are not Logged In!");
         return <Navigate to="/login" replace />;
     }
 

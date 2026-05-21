@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SetClass from "../../../shared/models/Set";
 import Set from "./Set";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
+import Options from "../../../shared/components/Options";
 
 const StyledExercise = styled.div`
     display: grid;
@@ -14,9 +15,10 @@ const StyledExercise = styled.div`
 `;
 
 const ExerciseHeader = styled.div`
+    position: relative;
     background-color: var(--color-neutral-700);
     border-bottom: 1px solid var(--color-border-strong);
-    padding: 3.2rem 3rem;
+    padding: 3.2rem 0;
 
     grid-column: 1 / -1;
     grid-row: 0 / 1;
@@ -28,7 +30,7 @@ const ExerciseHeader = styled.div`
 
 const ExerciseIndex = styled.div`
     background-color: var(--color-neutral-1000);
-    padding: 1.2rem 2rem;
+    padding: 1.4rem 2.2rem;
     font-weight: 600;
     font-size: 1.8rem;
     border-radius: 1.6rem;
@@ -90,9 +92,23 @@ function Exercise({ exercise, index }) {
         dispatch({ type: "set/create", payload: { newSet: new SetClass(), exerciseId: exercise.id } });
     }
 
+    function deleteExercise() {
+        dispatch({ type: "exercise/delete", payload: { exerciseId: exercise.id } });
+    }
+
     return (
         <StyledExercise>
             <ExerciseHeader>
+                <Options
+                    options={[{ label: "Delete", onClick: deleteExercise }]}
+                    positionCSS={{
+                        position: "absolute",
+                        top: "50%",
+                        right: "2rem",
+                        transform: "translateY(-50%)",
+                    }}
+                />
+
                 <ExerciseIndex>{index}</ExerciseIndex>
                 <ExerciseName>{exercise.name}</ExerciseName>
             </ExerciseHeader>

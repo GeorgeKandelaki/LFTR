@@ -31,7 +31,10 @@ function reducer(state, action) {
         }
 
         case "exercise/delete": {
-            return { ...state };
+            return {
+                ...state,
+                exercises: state.exercises.filter((exercise) => action.payload.exerciseId !== exercise.id),
+            };
         }
 
         case "exercise/update": {
@@ -74,9 +77,20 @@ function reducer(state, action) {
         }
 
         case "set/delete": {
-            return { ...state };
+            return {
+                ...state,
+                exercises: state.exercises.map((exercise) => {
+                    if (action.payload.exerciseId !== exercise.id) return exercise;
+
+                    return {
+                        ...exercise,
+                        sets: exercise.sets.filter((set) => action.payload.setId !== set.id),
+                    };
+                }),
+            };
         }
     }
+
     throw Error("Unknown action: " + action.type);
 }
 

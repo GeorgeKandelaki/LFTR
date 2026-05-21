@@ -1,8 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
+import Options from "../../../shared/components/Options";
 
 const StyledSet = styled.div`
+    position: relative;
     display: grid;
     grid-template-columns: 0.5fr 1fr 1fr 1fr 0.5fr;
     align-items: center;
@@ -74,10 +76,22 @@ function Set({ set, exerciseId, index }) {
         });
     }
 
-    function deleteSet() {}
+    function deleteSet() {
+        dispatch({
+            type: "set/delete",
+            payload: {
+                setId: set.id,
+                exerciseId,
+            },
+        });
+    }
 
     return (
         <StyledSet>
+            <Options
+                options={[{ label: "Delete", onClick: deleteSet }]}
+                positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-50%)" }}
+            />
             <Index>{index}</Index>
             <PreviousWeight>{set.PreviousWeight || "-- X --"}</PreviousWeight>
             <WeightInput

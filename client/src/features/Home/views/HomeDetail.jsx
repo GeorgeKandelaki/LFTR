@@ -11,6 +11,7 @@ import { MdAnalytics } from "react-icons/md";
 import { RiCollageFill } from "react-icons/ri";
 
 import PreviewImage from "../../../../static/screen.png";
+import { useNavigate } from "react-router";
 
 const StyledHomeDetail = styled.div`
     padding: 2.4rem 1.8rem;
@@ -96,6 +97,7 @@ const FeatureDescription = styled.p`
 `;
 
 function HomeDetail() {
+    const navigate = useNavigate();
     return (
         <>
             <StyledHomeDetail>
@@ -120,7 +122,7 @@ function HomeDetail() {
                         </Row>
 
                         <Row gap="1.6rem">
-                            <Button>Start your journey &rarr;</Button>
+                            <Button onClick={() => navigate("/workouts")}>Start your journey &rarr;</Button>
                             <Button variation="secondary">View Demo</Button>
                         </Row>
                     </Hero>
