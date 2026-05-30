@@ -4,8 +4,13 @@ import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 
 import Exercise from "../../../shared/models/Exercise";
+import Spinner from "../../../shared/components/Spinner";
+import { filterObj } from "../../../shared/utils/utils";
+import Button from "../../../shared/components/Button";
 import WorkoutProgress from "./WorkoutProgress";
 import WorkoutExercises from "./WorkoutExercises";
+import toast from "react-hot-toast";
+import useFinishWorkout from "../hooks/useFinishWorkout";
 
 const StyledWorkout = styled.main`
     margin: 9.6rem 12.8rem;
@@ -24,8 +29,6 @@ const WorkoutDescription = styled.p`
     color: var(--color-text-secondary);
     font-weight: 500;
 `;
-
-const WorkoutFinalActions = styled.div``;
 
 const AddExerciseButton = styled.button`
     width: 100%;
@@ -49,9 +52,19 @@ const AddExerciseButton = styled.button`
     }
 `;
 
-function Workout() {
+const WorkoutFinalActions = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4rem;
+
+    margin: 2.4rem 0;
+`;
+
+export default function Workout() {
     const navigate = useNavigate();
     const { workout, dispatch } = useWorkout();
+    const { mutate, isPending } = useFinishWorkout();
 
     useEffect(
         function () {
@@ -59,6 +72,29 @@ function Workout() {
         },
         [navigate, workout],
     );
+
+    function onFinish() {
+        const filteredWorkout = {
+            ...workout,
+            finishedAt: Date.now(),
+            exercises: workout.exercises.map((exercise) => ({
+                ...filterObj(exercise, ["id", "exerciseCompleted"]),
+                sets: exercise.sets.map((set) => ({ ...filterObj(set, ["id"]) })),
+            })),
+        };
+
+        mutate(filteredWorkout, {
+            onSuccess: (data) => {
+                toast.success("Workout Finished!");
+                dispatch({ type: "workout/finish" });
+            },
+            onError: (err) => {
+                console.log("CALL ERROR FIRED", err);
+            },
+        });
+    }
+
+    if (isPending) return <Spinner />;
 
     return (
         <StyledWorkout>
@@ -88,9 +124,18 @@ function Workout() {
             </AddExerciseButton>
 
             {/* <--- FINISH/REMOVE/DISCARD WORKOUT ---> */}
-            <WorkoutFinalActions></WorkoutFinalActions>
+            <WorkoutFinalActions>
+                <Button onClick={onFinish}>Finish Workout</Button>
+                <Button
+                    variation="delete"
+                    onClick={() => {
+                        toast.success("Workout Discarded!");
+                        dispatch({ type: "workout/discard" });
+                    }}
+                >
+                    Discard Workout
+                </Button>
+            </WorkoutFinalActions>
         </StyledWorkout>
     );
 }
-
-export default Workout;

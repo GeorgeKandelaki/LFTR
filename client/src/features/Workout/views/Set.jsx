@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
 import Options from "../../../shared/components/Options";
 
@@ -10,10 +10,29 @@ const StyledSet = styled.div`
     align-items: center;
     justify-items: start;
 
+    ${({ completed }) =>
+        completed
+            ? css`
+                  background-color: var(--color-success);
+                  & input {
+                      /* font-size: 2rem; */
+                      font-weight: 500;
+                      background-color: transparent;
+                  }
+
+                  & p {
+                      color: var(--color-text-primary);
+                  }
+              `
+            : css`
+                  background-color: #1e293a;
+              `};
+
     padding: 2.4rem 2.6rem;
     border-bottom: 1px solid var(--color-border-strong);
+    transition: all 0.2s;
 `;
-
+/* css`background-color: ${completed ? "var(--color-success)" : "#1e293a"}}; */
 const Index = styled.p`
     grid-column: 1 / 2;
 
@@ -87,10 +106,10 @@ function Set({ set, exerciseId, index }) {
     }
 
     return (
-        <StyledSet>
+        <StyledSet completed={completed}>
             <Options
                 options={[{ label: "Delete", onClick: deleteSet }]}
-                positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-50%)" }}
+                positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-51%)" }}
             />
             <Index>{index}</Index>
             <PreviousWeight>{set.PreviousWeight || "-- X --"}</PreviousWeight>
@@ -116,7 +135,7 @@ function Set({ set, exerciseId, index }) {
                 type="checkbox"
                 checked={completed}
                 onChange={(e) => {
-                    setCompleted(e.target.value);
+                    setCompleted((completed) => !completed);
                     updateSet({ completed: e.target.checked });
                 }}
             />

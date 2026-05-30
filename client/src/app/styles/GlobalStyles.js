@@ -146,6 +146,17 @@ const GlobalStyles = createGlobalStyle`
             font-size: 50%;
         }
     }
+
+
+    @media screen and (max-width: 48em) {
+        html {
+            font-size: 40%;
+        }
+
+        *  input[type=checkbox]{
+            transform: scale(1.5)
+        }
+    }
     
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {

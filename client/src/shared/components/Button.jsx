@@ -10,6 +10,9 @@ const variations = {
         border: 1px solid var(--color-border-subtle);
     `,
     tertiary: css``,
+    delete: css`
+        background-color: var(--color-error-500);
+    `,
 };
 const sizes = {
     small: css`
@@ -25,7 +28,7 @@ const sizes = {
 const Button = styled.button`
     background-color: transparent;
     border: none;
-    border-radius: 7px;
+    border-radius: 9px;
     font-weight: 600;
     line-height: 1;
 

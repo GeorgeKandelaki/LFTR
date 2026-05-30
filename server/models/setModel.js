@@ -14,12 +14,12 @@ const setSchema = new mongoose.Schema(
 
 setSchema.index({ exercise: 1 });
 
-setSchema.post("save", async function (doc) {
-    if (!doc.exercise) return;
-    const Exercise = mongoose.model("Exercise");
+// setSchema.post("save", async function (doc) {
+//     if (!doc.exercise) return;
+//     const Exercise = mongoose.model("Exercise");
 
-    await Exercise.findByIdAndUpdate(doc.exercise, { $addToSet: { sets: doc.id } });
-});
+//     await Exercise.findByIdAndUpdate(doc.exercise, { $addToSet: { sets: doc.id } });
+// });
 
 setSchema.pre("deleteOne", { document: true, query: false }, async function () {
     if (!this.exercise) return;

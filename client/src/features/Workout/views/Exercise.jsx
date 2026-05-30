@@ -53,13 +53,11 @@ const SetLabelTable = styled.div`
 `;
 
 const Sets = styled.div`
-    background-color: #1e293a;
     grid-column: 1 / -1;
     grid-row: 3 / 4;
 
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 `;
 
 const Label = styled.p`

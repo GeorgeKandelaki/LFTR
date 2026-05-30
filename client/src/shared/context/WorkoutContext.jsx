@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
-const initial = {
+const initialState = {
     name: "New Workout",
     description: "No Description",
     startedAt: "",
@@ -12,18 +12,19 @@ const initial = {
 function reducer(state, action) {
     switch (action.type) {
         case "workout/start": {
-            return { ...state, workoutStarted: true, startedAt: Date.now() };
+            return { ...initialState, workoutStarted: true, startedAt: Date.now() };
         }
 
         case "workout/finish": {
             return { ...state, workoutStarted: false, finishedAt: Date.now() };
         }
 
-        case "workout/set_name": {
-            return { ...state, name: action.payload.name };
+        case "workout/discard": {
+            return initialState;
         }
-        case "workout/set_description": {
-            return { ...state, description: action.payload.description };
+
+        case "workout/update": {
+            return { ...state };
         }
 
         case "exercise/create": {
@@ -56,9 +57,6 @@ function reducer(state, action) {
         }
 
         case "set/update": {
-            console.log(action.payload);
-            console.log(state);
-
             return {
                 ...state,
                 exercises: state.exercises.map((exercise) => {
@@ -97,7 +95,7 @@ function reducer(state, action) {
 const WorkoutContext = createContext(null);
 
 function WorkoutProvider({ children }) {
-    const [workout, dispatch] = useReducer(reducer, initial);
+    const [workout, dispatch] = useReducer(reducer, initialState);
 
     return <WorkoutContext.Provider value={{ workout, dispatch }}>{children}</WorkoutContext.Provider>;
 }

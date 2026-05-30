@@ -1,6 +1,9 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Workout = require("../models/workoutModel");
+const { default: mongoose } = require("mongoose");
+
+const { filterObj } = require("../utils/utils");
 
 exports.getWorkouts = catchAsync(async function (req, res, next) {
     const workouts = await Workout.find({ user: req.user.id });
@@ -57,5 +60,32 @@ exports.deleteWorkout = catchAsync(async function (req, res, next) {
     return res.status(204).json({
         status: "success",
         data: null,
+    });
+});
+
+exports.uploadWorkoutObj = catchAsync(async function (req, res, next) {
+    console.log(req.body);
+
+    const Exercise = mongoose.model("Exercise");
+    const Set = mongoose.model("Set");
+
+    const workout = await Workout.create(filterObj(req.body, ["exercises", "workoutStarted"]));
+
+    if (!workout) return next(new AppError("Workout couldn't be created. Try again.", 404));
+
+    for (let i = 0; i < req.body.exercises.length; i++) {
+        const curExercise = req.body.exercises[i];
+        const filteredExercise = { ...filterObj(curExercise, ["sets"]), workout: workout.id };
+        const exercise = await Exercise.create(filteredExercise);
+
+        for (let t = 0; t < curExercise.sets.length; t++) {
+            const curSet = { ...curExercise.sets[t], exercise: exercise.id };
+            const set = await Set.create(curSet);
+        }
+    }
+
+    return res.status(200).json({
+        status: "success",
+        data: workout,
     });
 });
