@@ -2,6 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const Set = require("../models/setModel");
 const AppError = require("../utils/appError");
 const { findByIdAndDelete } = require("../models/workoutModel");
+const Exercise = require("../models/exerciseModel");
 
 exports.getSets = catchAsync(async (req, res, next) => {
     const sets = await Set.find({ exercise: req.params.exerciseId });
@@ -31,7 +32,14 @@ exports.getSet = catchAsync(async (req, res, next) => {
 });
 
 exports.createSet = catchAsync(async (req, res, next) => {
+    const exercise = await Exercise.findById(req.params.exerciseId);
+
+    if (!exercise) return next(new AppError("No exercise found with that id.", 404));
+
     const set = await Set.create({ ...req.body, exercise: req.params.exerciseId });
+
+    exercise.sets.push(set.id);
+    await exercise.save();
 
     return res.status(201).json({
         status: "success",
@@ -40,7 +48,7 @@ exports.createSet = catchAsync(async (req, res, next) => {
 });
 
 exports.updateSet = catchAsync(async (req, res, next) => {
-    const set = await findByIdAndUpdate(req.params.setId, { ...req.body }, { new: true, runValidators: true });
+    const set = await Set.findByIdAndUpdate(req.params.setId, { ...req.body }, { new: true, runValidators: true });
 
     return res.status(200).json({
         status: "success",
