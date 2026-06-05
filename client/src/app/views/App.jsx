@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "../../shared/context/AuthContext";
 import { WorkoutProvider } from "../../shared/context/WorkoutContext";
+import Layout from "../../shared/components/Layout";
 
 const queryClient = new QueryClient();
 
@@ -39,12 +40,23 @@ function App() {
 
                                 {/* // Protected Routes*/}
                                 <Route element={<ProtectedRoute />}>
+<<<<<<< HEAD
                                     <Route path="/profile" element={<Profile />} />
                                     <Route path="/settings" element={<Settings />} />
                                     <Route path="/dashboard" element={<Dashboard />} />
                                     <Route path="/history" element={<History />} />
                                     <Route path="/workouts" element={<Workouts />} />
                                     <Route path="currentWorkout" element={<Workout />} />
+=======
+                                    <Route element={<Layout />}>
+                                        <Route path="/profile" element={<Profile />} />
+                                        <Route path="/settings" element={<Settings />} />
+                                        <Route path="/dashboard" element={<Dashboard />} />
+                                        <Route path="/history" element={<History />} />
+                                        <Route path="/workouts" element={<Workouts />} />
+                                        <Route path="currentWorkout" element={<Workout />} />
+                                    </Route>
+>>>>>>> 38c31e9 (adding)
                                 </Route>
                             </Routes>
                         </WorkoutProvider>
