@@ -3,7 +3,10 @@ import Sidebar from "./Sidebar";
 
 import { Outlet } from "react-router";
 
-const StyledLayout = styled.div``;
+const StyledLayout = styled.div`
+    display: flex;
+    height: 100vh;
+`;
 
 function Layout() {
     return (
