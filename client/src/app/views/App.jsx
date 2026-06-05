@@ -40,14 +40,6 @@ function App() {
 
                                 {/* // Protected Routes*/}
                                 <Route element={<ProtectedRoute />}>
-<<<<<<< HEAD
-                                    <Route path="/profile" element={<Profile />} />
-                                    <Route path="/settings" element={<Settings />} />
-                                    <Route path="/dashboard" element={<Dashboard />} />
-                                    <Route path="/history" element={<History />} />
-                                    <Route path="/workouts" element={<Workouts />} />
-                                    <Route path="currentWorkout" element={<Workout />} />
-=======
                                     <Route element={<Layout />}>
                                         <Route path="/profile" element={<Profile />} />
                                         <Route path="/settings" element={<Settings />} />
@@ -56,7 +48,6 @@ function App() {
                                         <Route path="/workouts" element={<Workouts />} />
                                         <Route path="currentWorkout" element={<Workout />} />
                                     </Route>
->>>>>>> 38c31e9 (adding)
                                 </Route>
                             </Routes>
                         </WorkoutProvider>
