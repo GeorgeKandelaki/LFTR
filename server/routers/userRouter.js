@@ -12,12 +12,12 @@ router.patch(
     "/me/updateUser",
     filterBody(["name", "email", "avatar"]),
     userController.upload.single("avatar"),
-    userController.updateUser
+    userController.updateUser,
 );
 router.patch(
     "/me/updatePassword",
     filterBody(["currentPassword", "newPassword", "confirmPassword"]),
-    userController.updatePassword
+    userController.updatePassword,
 );
 
 module.exports = router;

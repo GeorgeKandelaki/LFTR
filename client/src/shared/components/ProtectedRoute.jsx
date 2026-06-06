@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 import Spinner from "./Spinner";
 
-import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
+import useCheckAuthentication from "../hooks/useCheckAuthentication";
 
 function ProtectedRoute() {
     const { isLoggedIn, isPending } = useCheckAuthentication();

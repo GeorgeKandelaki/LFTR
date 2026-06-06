@@ -92,10 +92,11 @@ exports.checkIfLoggedIn = catchAsync(async (req, res) => {
         return res.status(200).json({ status: "success", isLoggedIn: false });
     }
 
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).select("-password");
 
     return res.status(200).json({
         status: "success",
         isLoggedIn: !!user,
+        user,
     });
 });
