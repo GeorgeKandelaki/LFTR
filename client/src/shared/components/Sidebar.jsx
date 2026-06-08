@@ -122,7 +122,6 @@ const AvatarUserMembership = styled.p`
 const OpenButton = styled.button`
     position: absolute;
     top: 4rem;
-    /* right: 1rem; */
 
     transform: translateY(-50%);
     background-color: transparent;
@@ -194,5 +193,9 @@ function Sidebar() {
         </StyledSidebar>
     );
 }
+
+// Would have been a better approach. TODO: In the future refactor/migrate to this type of solution.
+// Sidebar.OpenButton = OpenButton;
+// Sidebar.SidebarContainer = SidebarContainer;
 
 export default Sidebar;

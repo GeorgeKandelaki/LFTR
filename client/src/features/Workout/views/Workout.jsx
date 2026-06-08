@@ -13,21 +13,43 @@ import toast from "react-hot-toast";
 import useFinishWorkout from "../hooks/useFinishWorkout";
 
 const StyledWorkout = styled.main`
-    margin: 9.6rem 12.8rem;
+    padding: 0 2.4rem;
     margin: 9.6rem auto;
 
     max-width: 120rem;
 `;
 
-const WorkoutHeader = styled.div``;
-
-const WorkoutHeading = styled.h1`
-    font-size: 4rem;
+const WorkoutHeader = styled.div`
+    display: inline-flex;
+    flex-direction: column;
 `;
 
-const WorkoutDescription = styled.p`
+const WorkoutHeading = styled.input`
+    display: inline-block;
+    font-size: 4rem;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.6rem;
+
+    &:focus {
+        outline: 2px solid var(--color-border-strong);
+    }
+`;
+
+const WorkoutDescription = styled.input`
+    display: inline-block;
     color: var(--color-text-secondary);
     font-weight: 500;
+    background-color: transparent;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.6rem;
+
+    &:focus {
+        outline: 2px solid var(--color-border-strong);
+    }
 `;
 
 const AddExerciseButton = styled.button`
@@ -98,11 +120,43 @@ export default function Workout() {
 
     return (
         <StyledWorkout>
+            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: "-7%" }}>
+                &larr; Back
+            </Button>
             {/* <--- HEADER ---> */}
             <WorkoutHeader>
-                <WorkoutHeading>{workout.name}</WorkoutHeading>
+                <WorkoutHeading
+                    value={workout.name}
+                    onChange={(e) => {
+                        // if (e.target.value.length < 1) {
+                        //     e.target.value = "New Workout";
+                        //     toast.error("Workout name can't be empty!");
+                        // }
 
-                <WorkoutDescription>{workout.description}</WorkoutDescription>
+                        dispatch({
+                            type: "workout/update",
+                            payload: {
+                                name: e.target.value,
+                            },
+                        });
+                    }}
+                />
+
+                <WorkoutDescription
+                    value={workout.description}
+                    onChange={(e) => {
+                        if (e.target.value.length < 1) {
+                            toast.error("Workout description can't be empty!");
+                            e.target.value = "No Description";
+                        }
+                        dispatch({
+                            type: "workout/update",
+                            payload: {
+                                description: e.target.value,
+                            },
+                        });
+                    }}
+                />
             </WorkoutHeader>
 
             {/* <--- WORKOUT PROGRESS BAR ---> */}

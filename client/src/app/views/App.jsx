@@ -46,8 +46,8 @@ function App() {
                                         <Route path="/dashboard" element={<Dashboard />} />
                                         <Route path="/history" element={<History />} />
                                         <Route path="/workouts" element={<Workouts />} />
-                                        <Route path="currentWorkout" element={<Workout />} />
                                     </Route>
+                                    <Route path="/currentWorkout" element={<Workout />} />
                                 </Route>
                             </Routes>
                         </WorkoutProvider>

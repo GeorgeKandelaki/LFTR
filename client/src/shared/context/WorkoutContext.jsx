@@ -24,7 +24,7 @@ function reducer(state, action) {
         }
 
         case "workout/update": {
-            return { ...state };
+            return { ...state, ...action.payload };
         }
 
         case "exercise/create": {
@@ -39,7 +39,14 @@ function reducer(state, action) {
         }
 
         case "exercise/update": {
-            return { ...state };
+            return {
+                ...state,
+                exercises: state.exercises.map((exercise) => {
+                    if (exercise.id !== action.payload.exerciseId) return exercise;
+
+                    return { ...exercise, ...action.payload.updateObj };
+                }),
+            };
         }
 
         case "set/create": {

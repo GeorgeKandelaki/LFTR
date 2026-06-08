@@ -4,6 +4,7 @@ import SetClass from "../../../shared/models/Set";
 import Set from "./Set";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
 import Options from "../../../shared/components/Options";
+import toast from "react-hot-toast";
 
 const StyledExercise = styled.div`
     display: grid;
@@ -37,7 +38,19 @@ const ExerciseIndex = styled.div`
     color: var(--color-text-secondary);
 `;
 
-const ExerciseName = styled.h2``;
+const ExerciseName = styled.input`
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.6rem;
+
+    &:focus {
+        outline: 2px solid var(--color-border-strong);
+    }
+`;
 
 const SetLabelTable = styled.div`
     display: grid;
@@ -108,7 +121,20 @@ function Exercise({ exercise, index }) {
                 />
 
                 <ExerciseIndex>{index}</ExerciseIndex>
-                <ExerciseName>{exercise.name}</ExerciseName>
+                <ExerciseName
+                    value={exercise.name}
+                    onChange={(e) => {
+                        // if (e.target.value.length < 1) {
+                        //     e.target.value = "New Exercise";
+                        //     toast.error("Exercise name can't be empty!");
+                        // }
+
+                        dispatch({
+                            type: "exercise/update",
+                            payload: { exerciseId: exercise.id, updateObj: { name: e.target.value } },
+                        });
+                    }}
+                />
             </ExerciseHeader>
 
             <SetLabelTable>

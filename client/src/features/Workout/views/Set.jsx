@@ -10,8 +10,8 @@ const StyledSet = styled.div`
     align-items: center;
     justify-items: start;
 
-    ${({ completed }) =>
-        completed
+    ${({ $completed }) =>
+        $completed
             ? css`
                   background-color: var(--color-success);
                   & input {
@@ -106,7 +106,7 @@ function Set({ set, exerciseId, index }) {
     }
 
     return (
-        <StyledSet completed={completed}>
+        <StyledSet $completed={completed}>
             <Options
                 options={[{ label: "Delete", onClick: deleteSet }]}
                 positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-51%)" }}
