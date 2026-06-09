@@ -2,6 +2,7 @@ const { default: mongoose, Schema } = require("mongoose");
 
 const setSchema = new mongoose.Schema(
     {
+        user: { type: Schema.Types.ObjectId, ref: "User" },
         exercise: { type: Schema.Types.ObjectId, ref: "Exercise" },
         reps: { type: Number, required: true },
         weight: { type: Number, required: true },
@@ -12,7 +13,7 @@ const setSchema = new mongoose.Schema(
     { toJSON: true, toObject: true },
 );
 
-setSchema.index({ exercise: 1 });
+setSchema.index({ exercise: 1, user: 1 });
 
 // setSchema.post("save", async function (doc) {
 //     if (!doc.exercise) return;

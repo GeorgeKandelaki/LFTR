@@ -170,7 +170,7 @@ export default function Workout() {
                 onClick={() => {
                     dispatch({
                         type: "exercise/create",
-                        payload: { exercise: new Exercise("New Exercise", [], false, Date.now()) },
+                        payload: { exercise: new Exercise("New Exercise", []) },
                     });
                 }}
             >

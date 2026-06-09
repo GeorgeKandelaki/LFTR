@@ -2,7 +2,7 @@ const { default: mongoose, Schema } = require("mongoose");
 
 const exerciseSchema = new mongoose.Schema(
     {
-        // user: { type: Schema.Types.ObjectId, ref: "User" },
+        user: { type: Schema.Types.ObjectId, ref: "User" },
         workout: { type: Schema.Types.ObjectId, ref: "Workout" },
         name: { type: String, required: true, trim: true },
         sets: [{ type: Schema.Types.ObjectId, ref: "Set" }],
@@ -11,7 +11,7 @@ const exerciseSchema = new mongoose.Schema(
     { toJSON: true, toObject: true },
 );
 
-exerciseSchema.index({ workout: 1, name: 1 });
+exerciseSchema.index({ workout: 1, name: 1, user: 1 });
 
 // exerciseSchema.post("save", async function (doc) {
 //     const Workout = mongoose.model("Workout");
