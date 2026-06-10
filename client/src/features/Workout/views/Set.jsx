@@ -110,6 +110,11 @@ function Set({ set, exerciseId, index }) {
             <Options
                 options={[{ label: "Delete", onClick: deleteSet }]}
                 positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-51%)" }}
+                positionBoxCSS={{
+                    position: "absolute",
+                    top: "7rem",
+                    right: "-6rem",
+                }}
             />
             <Index>{index}</Index>
             <PreviousWeight>{set.PreviousWeight || "-- X --"}</PreviousWeight>

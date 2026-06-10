@@ -12,10 +12,12 @@ const StyledExercise = styled.div`
     grid-template-rows: 10rem 5rem 1fr 7rem;
     border: 1px solid var(--color-border-strong);
     border-radius: 2rem;
-    overflow: hidden;
 `;
 
 const ExerciseHeader = styled.div`
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+
     position: relative;
     background-color: var(--color-neutral-700);
     border-bottom: 1px solid var(--color-border-strong);
@@ -90,6 +92,8 @@ const AddSetBtn = styled.button`
     font-weight: 600;
 
     transition: opacity 0.3s;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
 
     &:hover {
         opacity: 0.5;
@@ -117,6 +121,11 @@ function Exercise({ exercise, index }) {
                         top: "50%",
                         right: "2rem",
                         transform: "translateY(-50%)",
+                    }}
+                    positionBoxCSS={{
+                        position: "absolute",
+                        top: "7rem",
+                        right: "-6rem",
                     }}
                 />
 

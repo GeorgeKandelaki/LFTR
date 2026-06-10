@@ -30,7 +30,7 @@ const OptionsBox = styled.div`
     z-index: 1;
 `;
 
-function Options({ options, positionCSS, closeOutsideClick = true }) {
+function Options({ options, positionCSS, positionBoxCSS, closeOutsideClick = true }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const wrapperRef = useRef(null);
@@ -64,10 +64,7 @@ function Options({ options, positionCSS, closeOutsideClick = true }) {
             {isOpen && (
                 <OptionsBox
                     style={{
-                        position,
-                        top: `${boxPosition.top + Math.round(boxPosition.top * 0.9)}% `,
-                        right: `${boxPosition.right - boxPosition.right} `,
-                        transform,
+                        ...positionBoxCSS,
                     }}
                 >
                     {options.map((option) => (
