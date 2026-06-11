@@ -9,11 +9,19 @@ const StyledHistory = styled.div`
     width: 100%;
 
     display: flex;
-    justify-content: center;
-    align-items: top;
-    gap: 3.2rem;
-
+    justify-content: start;
+    align-items: start;
     flex-wrap: wrap;
+    gap: 3.2rem;
+`;
+
+const NoWorkouts = styled.p`
+    font-size: 4rem;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    text-align: center;
+
+    margin: auto 0;
 `;
 
 function History() {
@@ -23,9 +31,11 @@ function History() {
 
     return (
         <StyledHistory>
-            {data.workouts.map((workout) => (
-                <WorkoutCard workout={workout} key={workout.id} />
-            ))}
+            {data.workouts.length ? (
+                data.workouts.map((workout) => <WorkoutCard workout={workout} key={workout._id} />)
+            ) : (
+                <NoWorkouts>No Workouts Found!</NoWorkouts>
+            )}
         </StyledHistory>
     );
 }

@@ -6,9 +6,12 @@ const { default: mongoose } = require("mongoose");
 const { filterObj } = require("../utils/utils");
 
 exports.getWorkouts = catchAsync(async function (req, res, next) {
-    const workouts = await Workout.find({ user: req.user.id }).populate("exercises");
+    const workouts = await Workout.find({ user: req.user.id }).populate({
+        path: "exercises",
+        populate: { path: "sets" },
+    });
 
-    if (!workouts) return next(new AppError("No Workouts associated with the user."));
+    if (!workouts.length) return next(new AppError("No Workouts associated with the user."));
 
     return res.status(200).json({
         status: "success",

@@ -9,9 +9,9 @@ const workoutSchema = new mongoose.Schema(
         finished: { type: Boolean, default: false },
         description: { type: String },
         startedAt: { type: Date, default: Date.now() },
-
         finishedAt: { type: Date, default: null },
     },
+
     { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
