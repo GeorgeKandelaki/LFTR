@@ -103,6 +103,7 @@ function WorkoutCard({ workout }) {
                                     label: "Delete",
                                     onClick: () => mutate(workout.id),
                                 },
+                                { label: "Update", onClick: () => {} },
                             ]}
                             positionCSS={{ position: "absolute", top: "0.4rem", right: "-2.4rem" }}
                             positionBoxCSS={{ position: "absolute", top: "4rem", right: "-9.6rem" }}

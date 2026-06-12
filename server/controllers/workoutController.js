@@ -101,3 +101,5 @@ exports.uploadWorkoutObj = catchAsync(async function (req, res, next) {
         data: workout,
     });
 });
+
+exports.updateWorkoutObj = catchAsync(async (req, res, next) => {});

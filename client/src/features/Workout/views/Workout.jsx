@@ -83,7 +83,7 @@ const WorkoutFinalActions = styled.div`
     margin: 2.4rem 0;
 `;
 
-export default function Workout() {
+export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
     const navigate = useNavigate();
     const { workout, dispatch } = useWorkout();
     const { mutate, isPending } = useFinishWorkout();
@@ -115,6 +115,8 @@ export default function Workout() {
             },
         });
     }
+
+    function onUpdate() {}
 
     if (isPending) return <Spinner />;
 

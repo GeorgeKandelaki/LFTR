@@ -19,3 +19,18 @@ export async function finishWorkout(workoutObj) {
         throw err;
     }
 }
+
+export async function updateWorkout(updateWorkoutObj) {
+    try {
+        const response = await axios({
+            method: "patch",
+            url: `${API}/workouts/updateWorkoutObj`,
+            withCredentials: true,
+            data: {},
+        });
+    } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || err.message);
+        throw err;
+    }
+}
