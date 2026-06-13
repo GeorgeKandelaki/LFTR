@@ -47,7 +47,9 @@ function App() {
                                         <Route path="/history" element={<History />} />
                                         <Route path="/workouts" element={<Workouts />} />
                                     </Route>
+
                                     <Route path="/currentWorkout" element={<Workout />} />
+                                    <Route path="/currentWorkout/:workoutId" element={<Workout updateMode={true} />} />
                                 </Route>
                             </Routes>
                         </WorkoutProvider>

@@ -11,6 +11,8 @@ import WorkoutProgress from "./WorkoutProgress";
 import WorkoutExercises from "./WorkoutExercises";
 import toast from "react-hot-toast";
 import useFinishWorkout from "../hooks/useFinishWorkout";
+import useUpdateWorkout from "../hooks/useUpdateWorkout";
+import { useRef } from "react";
 
 const StyledWorkout = styled.main`
     padding: 0 2.4rem;
@@ -83,16 +85,24 @@ const WorkoutFinalActions = styled.div`
     margin: 2.4rem 0;
 `;
 
-export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
+export default function Workout({ updateMode = false }) {
     const navigate = useNavigate();
     const { workout, dispatch } = useWorkout();
-    const { mutate, isPending } = useFinishWorkout();
+    const { mutate: finishWorkout, isPending: isFinishing } = useFinishWorkout();
+    const { updateWorkout, isUpdating } = useUpdateWorkout();
+
+    const updateWorkoutRef = useRef({
+        workoutId: workout._id,
+        updatedWorkoutFields: {},
+        updatedExercises: [],
+        updatedSets: [],
+    });
 
     useEffect(
         function () {
-            if (workout && workout?.workoutStarted === false) navigate("/workouts");
+            if (workout && !updateMode && workout?.workoutStarted === false) navigate("/workouts");
         },
-        [navigate, workout],
+        [navigate, workout, updateMode],
     );
 
     function onFinish() {
@@ -105,8 +115,8 @@ export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
             })),
         };
 
-        mutate(filteredWorkout, {
-            onSuccess: (data) => {
+        finishWorkout(filteredWorkout, {
+            onSuccess: () => {
                 toast.success("Workout Finished!");
                 dispatch({ type: "workout/finish" });
             },
@@ -118,11 +128,13 @@ export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
 
     function onUpdate() {}
 
-    if (isPending) return <Spinner />;
+    if (isFinishing || isUpdating) return <Spinner />;
+
+    console.log(updateWorkoutRef.current);
 
     return (
         <StyledWorkout>
-            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: "-7%" }}>
+            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: updateMode ? "-3%" : "-6%" }}>
                 &larr; Back
             </Button>
             {/* <--- HEADER ---> */}
@@ -141,22 +153,27 @@ export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
                                 name: e.target.value,
                             },
                         });
+
+                        if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.name = e.target.value;
                     }}
                 />
 
                 <WorkoutDescription
                     value={workout.description}
                     onChange={(e) => {
-                        if (e.target.value.length < 1) {
-                            toast.error("Workout description can't be empty!");
-                            e.target.value = "No Description";
-                        }
+                        // if (e.target.value.length < 1) {
+                        //     toast.error("Workout description can't be empty!");
+                        //     e.target.value = "No Description";
+                        // }
+
                         dispatch({
                             type: "workout/update",
                             payload: {
                                 description: e.target.value,
                             },
                         });
+
+                        if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.description = e.target.value;
                     }}
                 />
             </WorkoutHeader>
@@ -165,7 +182,11 @@ export default function Workout({ updateWorkoutObj = {}, updateMode = false }) {
             <WorkoutProgress maxExercises={workout.exercises.length} finishedExercise={0} />
 
             {/* <--- WORKOUT EXERCISES/SETS ---> */}
-            <WorkoutExercises exercises={workout.exercises} />
+            <WorkoutExercises
+                exercises={workout.exercises}
+                updateMode={updateMode}
+                updateWorkoutRef={updateWorkoutRef}
+            />
 
             {/* <--- ADD EXERCISE BUTTON ---> */}
             <AddExerciseButton

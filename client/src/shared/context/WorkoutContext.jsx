@@ -94,6 +94,10 @@ function reducer(state, action) {
                 }),
             };
         }
+
+        case "workout/upload": {
+            return action.payload.workoutObj;
+        }
     }
 
     throw Error("Unknown action: " + action.type);

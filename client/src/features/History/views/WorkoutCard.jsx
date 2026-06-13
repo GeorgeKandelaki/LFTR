@@ -4,6 +4,8 @@ import useDeleteWorkout from "../hooks/useDeleteWorkout";
 
 import Options from "../../../shared/components/Options";
 import Spinner from "../../../shared/components/Spinner";
+import { useWorkout } from "../../../shared/context/WorkoutContext";
+import { useNavigate } from "react-router";
 
 const StyledWorkoutCard = styled.div`
     display: inline-block;
@@ -82,7 +84,9 @@ const SetReps = styled.span`
 `;
 
 function WorkoutCard({ workout }) {
+    const navigate = useNavigate();
     const { mutate, isPending } = useDeleteWorkout();
+    const { dispatch } = useWorkout();
 
     const startedAtDate = workout.startedAt;
     const finishedAtDate = workout.finishedAt;
@@ -103,7 +107,13 @@ function WorkoutCard({ workout }) {
                                     label: "Delete",
                                     onClick: () => mutate(workout.id),
                                 },
-                                { label: "Update", onClick: () => {} },
+                                {
+                                    label: "Update",
+                                    onClick: () => {
+                                        dispatch({ type: "workout/upload", payload: { workoutObj: workout } });
+                                        navigate("/currentWorkout/" + workout._id);
+                                    },
+                                },
                             ]}
                             positionCSS={{ position: "absolute", top: "0.4rem", right: "-2.4rem" }}
                             positionBoxCSS={{ position: "absolute", top: "4rem", right: "-9.6rem" }}

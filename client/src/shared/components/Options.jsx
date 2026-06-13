@@ -9,6 +9,7 @@ const Option = styled.div`
     letter-spacing: 1px;
     font-weight: 500;
     transition: opacity 0.2s;
+    padding: 6px 0;
 
     cursor: pointer;
 
@@ -28,6 +29,10 @@ const OptionsBox = styled.div`
     border-radius: 1rem;
     border: 1px solid var(--color-border-strong);
     z-index: 1;
+
+    & > div:not(:last-child) {
+        border-bottom: 1px solid var(--color-border-strong);
+    }
 `;
 
 function Options({ options, positionCSS, positionBoxCSS, closeOutsideClick = true }) {

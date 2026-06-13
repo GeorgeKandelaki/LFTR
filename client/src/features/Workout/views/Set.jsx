@@ -77,7 +77,7 @@ const CompletedStatus = styled.input`
     transform: scale(2);
 `;
 
-function Set({ set, exerciseId, index }) {
+function Set({ set, exerciseId, index, updateMode, updateWorkoutRef }) {
     const { dispatch } = useWorkout();
 
     const [weight, setWeight] = useState(set.weight);
@@ -88,7 +88,7 @@ function Set({ set, exerciseId, index }) {
         dispatch({
             type: "set/update",
             payload: {
-                setId: set.id,
+                setId: set._id,
                 exerciseId,
                 updateObj,
             },
@@ -99,7 +99,7 @@ function Set({ set, exerciseId, index }) {
         dispatch({
             type: "set/delete",
             payload: {
-                setId: set.id,
+                setId: set._id,
                 exerciseId,
             },
         });

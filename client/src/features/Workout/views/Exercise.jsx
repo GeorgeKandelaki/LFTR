@@ -100,15 +100,15 @@ const AddSetBtn = styled.button`
     }
 `;
 
-function Exercise({ exercise, index }) {
+function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
     const { dispatch } = useWorkout();
 
     function addSet() {
-        dispatch({ type: "set/create", payload: { newSet: new SetClass(), exerciseId: exercise.id } });
+        dispatch({ type: "set/create", payload: { newSet: new SetClass(), exerciseId: exercise._id } });
     }
 
     function deleteExercise() {
-        dispatch({ type: "exercise/delete", payload: { exerciseId: exercise.id } });
+        dispatch({ type: "exercise/delete", payload: { exerciseId: exercise._id } });
     }
 
     return (
@@ -140,7 +140,7 @@ function Exercise({ exercise, index }) {
 
                         dispatch({
                             type: "exercise/update",
-                            payload: { exerciseId: exercise.id, updateObj: { name: e.target.value } },
+                            payload: { exerciseId: exercise._id, updateObj: { name: e.target.value } },
                         });
                     }}
                 />
@@ -163,7 +163,14 @@ function Exercise({ exercise, index }) {
 
             <Sets>
                 {exercise.sets.map((set, i) => (
-                    <Set set={set} exerciseId={exercise.id} index={i + 1} key={set.id} />
+                    <Set
+                        set={set}
+                        exerciseId={exercise._id}
+                        index={i + 1}
+                        key={set._id}
+                        updateMode={updateMode}
+                        updateWorkoutRef={updateWorkoutRef}
+                    />
                 ))}
             </Sets>
 

@@ -8,11 +8,17 @@ const StyledWorkoutExercises = styled.div`
     gap: 3.2rem;
 `;
 
-function WorkoutExercises({ exercises }) {
+function WorkoutExercises({ exercises, updateMode, updateWorkoutRef }) {
     return (
         <StyledWorkoutExercises>
             {exercises.map((exercise, i) => (
-                <Exercise exercise={exercise} key={exercise.id} index={i + 1} />
+                <Exercise
+                    exercise={exercise}
+                    key={exercise._id}
+                    index={i + 1}
+                    updateMode={updateMode}
+                    updateWorkoutRef={updateWorkoutRef}
+                />
             ))}
         </StyledWorkoutExercises>
     );
