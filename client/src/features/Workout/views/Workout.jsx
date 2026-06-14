@@ -88,15 +88,19 @@ const WorkoutFinalActions = styled.div`
 export default function Workout({ updateMode = false }) {
     const navigate = useNavigate();
     const { workout, dispatch } = useWorkout();
-    const { mutate: finishWorkout, isPending: isFinishing } = useFinishWorkout();
+    const { mutate: finishWorkout, isFinishing } = useFinishWorkout();
     const { updateWorkout, isUpdating } = useUpdateWorkout();
 
-    const updateWorkoutRef = useRef({
+    const initialRef = {
         workoutId: workout._id,
         updatedWorkoutFields: {},
         updatedExercises: [],
         updatedSets: [],
-    });
+    };
+
+    const updateWorkoutRef = useRef({ ...initialRef });
+
+    // EXAMPLE of update Obj: {documentId: id, updatedFields: {key: value}}
 
     useEffect(
         function () {
@@ -110,8 +114,8 @@ export default function Workout({ updateMode = false }) {
             ...workout,
             finishedAt: Date.now(),
             exercises: workout.exercises.map((exercise) => ({
-                ...filterObj(exercise, ["id", "exerciseCompleted"]),
-                sets: exercise.sets.map((set) => ({ ...filterObj(set, ["id"]) })),
+                ...filterObj(exercise, ["_id", "exerciseCompleted"]),
+                sets: exercise.sets.map((set) => ({ ...filterObj(set, ["_id"]) })),
             })),
         };
 
@@ -129,8 +133,6 @@ export default function Workout({ updateMode = false }) {
     function onUpdate() {}
 
     if (isFinishing || isUpdating) return <Spinner />;
-
-    console.log(updateWorkoutRef.current);
 
     return (
         <StyledWorkout>
@@ -189,28 +191,37 @@ export default function Workout({ updateMode = false }) {
             />
 
             {/* <--- ADD EXERCISE BUTTON ---> */}
-            <AddExerciseButton
-                onClick={() => {
-                    dispatch({
-                        type: "exercise/create",
-                        payload: { exercise: new Exercise("New Exercise", []) },
-                    });
-                }}
-            >
-                + Add Exercise
-            </AddExerciseButton>
+            {!updateMode && (
+                <AddExerciseButton
+                    onClick={() => {
+                        dispatch({
+                            type: "exercise/create",
+                            payload: { exercise: new Exercise("New Exercise", []) },
+                        });
+                    }}
+                >
+                    + Add Exercise
+                </AddExerciseButton>
+            )}
 
             {/* <--- FINISH/REMOVE/DISCARD WORKOUT ---> */}
             <WorkoutFinalActions>
-                <Button onClick={onFinish}>Finish Workout</Button>
+                <Button onClick={updateMode ? onUpdate : onFinish}>
+                    {updateMode ? "Submit Changes" : "Finish Workout"}
+                </Button>
                 <Button
                     variation="delete"
                     onClick={() => {
+                        if (updateMode) {
+                            updateWorkoutRef.current = { ...initialRef };
+                            return;
+                        }
+
                         toast.success("Workout Discarded!");
                         dispatch({ type: "workout/discard" });
                     }}
                 >
-                    Discard Workout
+                    Discard {updateMode ? "Changes" : "Workout"}
                 </Button>
             </WorkoutFinalActions>
         </StyledWorkout>

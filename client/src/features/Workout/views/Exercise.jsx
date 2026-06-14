@@ -9,9 +9,10 @@ import toast from "react-hot-toast";
 const StyledExercise = styled.div`
     display: grid;
     grid-template-columns: 0.5fr 1fr 1fr 1fr 0.5fr;
-    grid-template-rows: 10rem 5rem 1fr 7rem;
+    grid-template-rows: ${({ $updateMode }) => ($updateMode ? "10rem 5rem 1fr" : "10rem 5rem 1fr 7rem")};
     border: 1px solid var(--color-border-strong);
     border-radius: 2rem;
+    ${({ $updateMode }) => ($updateMode ? "overflow: hidden" : "")};
 `;
 
 const ExerciseHeader = styled.div`
@@ -87,7 +88,7 @@ const AddSetBtn = styled.button`
     grid-column: 1 / -1;
     background-color: var(--color-neutral-700);
     border: none;
-    /* border-top: 1px solid var(--color-border-strong); */
+    border-top: 1px solid var(--color-border-strong);
     color: var(--color-accent-600);
     font-weight: 600;
 
@@ -112,36 +113,66 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
     }
 
     return (
-        <StyledExercise>
-            <ExerciseHeader>
-                <Options
-                    options={[{ label: "Delete", onClick: deleteExercise }]}
-                    positionCSS={{
-                        position: "absolute",
-                        top: "50%",
-                        right: "2rem",
-                        transform: "translateY(-50%)",
-                    }}
-                    positionBoxCSS={{
-                        position: "absolute",
-                        top: "7rem",
-                        right: "-6rem",
-                    }}
-                />
+        <StyledExercise $updateMode={updateMode}>
+            <ExerciseHeader style={updateMode ? { padding: "3.2rem 2.4rem" } : {}}>
+                {!updateMode && (
+                    <Options
+                        options={[{ label: "Delete", onClick: deleteExercise }]}
+                        positionCSS={{
+                            position: "absolute",
+                            top: "50%",
+                            right: "2rem",
+                            transform: "translateY(-50%)",
+                        }}
+                        positionBoxCSS={{
+                            position: "absolute",
+                            top: "7rem",
+                            right: "-6rem",
+                        }}
+                    />
+                )}
 
                 <ExerciseIndex>{index}</ExerciseIndex>
                 <ExerciseName
                     value={exercise.name}
                     onChange={(e) => {
-                        // if (e.target.value.length < 1) {
-                        //     e.target.value = "New Exercise";
-                        //     toast.error("Exercise name can't be empty!");
-                        // }
+                        const name = e.target.value;
 
                         dispatch({
                             type: "exercise/update",
-                            payload: { exerciseId: exercise._id, updateObj: { name: e.target.value } },
+                            payload: { exerciseId: exercise._id, updateObj: { name } },
                         });
+                        console.log(e.target.value, exercise._id);
+
+                        if (!updateMode) return;
+
+                        const updatedExercisesIds = updateWorkoutRef.current.updatedExercises.map(
+                            (updatedExercise) => updatedExercise.exerciseId,
+                        );
+                        // const exists = updateWorkoutRef.current.updatedExercises.some(
+                        //    (e) => e.exerciseId === exercise._id,
+                        // );
+
+                        if (!updatedExercisesIds.includes(exercise._id))
+                            updateWorkoutRef.current.updatedExercises.push({
+                                exerciseId: exercise._id,
+                                updatedFields: { name },
+                            });
+                        else {
+                            updateWorkoutRef.current.updatedExercises = updateWorkoutRef.current.updatedExercises.map(
+                                (updatedExercise) => {
+                                    if (exercise._id !== updatedExercise.exerciseId) return updatedExercise;
+
+                                    return {
+                                        ...updatedExercise,
+                                        updatedFields: {
+                                            ...updatedExercise.updatedFields,
+                                            name,
+                                        },
+                                    };
+                                },
+                            );
+                        }
                     }}
                 />
             </ExerciseHeader>
@@ -174,7 +205,7 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
                 ))}
             </Sets>
 
-            <AddSetBtn onClick={() => addSet()}>+ ADD SET</AddSetBtn>
+            {!updateMode && <AddSetBtn onClick={() => addSet()}>+ ADD SET</AddSetBtn>}
         </StyledExercise>
     );
 }

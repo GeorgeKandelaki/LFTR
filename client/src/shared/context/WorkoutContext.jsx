@@ -34,7 +34,7 @@ function reducer(state, action) {
         case "exercise/delete": {
             return {
                 ...state,
-                exercises: state.exercises.filter((exercise) => action.payload.exerciseId !== exercise.id),
+                exercises: state.exercises.filter((exercise) => action.payload.exerciseId !== exercise._id),
             };
         }
 
@@ -42,7 +42,7 @@ function reducer(state, action) {
             return {
                 ...state,
                 exercises: state.exercises.map((exercise) => {
-                    if (exercise.id !== action.payload.exerciseId) return exercise;
+                    if (exercise._id !== action.payload.exerciseId) return exercise;
 
                     return { ...exercise, ...action.payload.updateObj };
                 }),
@@ -53,7 +53,7 @@ function reducer(state, action) {
             return {
                 ...state,
                 exercises: state.exercises.map((exercise) => {
-                    if (exercise.id !== action.payload.exerciseId) return exercise;
+                    if (exercise._id !== action.payload.exerciseId) return exercise;
 
                     return {
                         ...exercise,
@@ -67,12 +67,12 @@ function reducer(state, action) {
             return {
                 ...state,
                 exercises: state.exercises.map((exercise) => {
-                    if (exercise.id !== action.payload.exerciseId) return exercise;
+                    if (exercise._id !== action.payload.exerciseId) return exercise;
 
                     return {
                         ...exercise,
                         sets: exercise.sets.map((set) => {
-                            if (set.id !== action.payload.setId) return set;
+                            if (set._id !== action.payload.setId) return set;
 
                             return { ...set, ...action.payload.updateObj };
                         }),
@@ -85,11 +85,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 exercises: state.exercises.map((exercise) => {
-                    if (action.payload.exerciseId !== exercise.id) return exercise;
+                    if (action.payload.exerciseId !== exercise._id) return exercise;
 
                     return {
                         ...exercise,
-                        sets: exercise.sets.filter((set) => action.payload.setId !== set.id),
+                        sets: exercise.sets.filter((set) => action.payload.setId !== set._id),
                     };
                 }),
             };

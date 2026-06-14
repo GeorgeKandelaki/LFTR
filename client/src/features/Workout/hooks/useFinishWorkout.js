@@ -4,7 +4,11 @@ import toast from "react-hot-toast";
 
 export default function useFinishWorkout() {
     const queryClient = useQueryClient();
-    const { error, isPending, mutate } = useMutation({
+    const {
+        error,
+        isPending: isFinishing,
+        mutate,
+    } = useMutation({
         mutationFn: finishWorkout,
         onSuccess: (data) => {
             toast.success("Workout Successfully Saved!");
@@ -16,5 +20,5 @@ export default function useFinishWorkout() {
         },
     });
 
-    return { isPending, mutate, error };
+    return { isFinishing, mutate, error };
 }

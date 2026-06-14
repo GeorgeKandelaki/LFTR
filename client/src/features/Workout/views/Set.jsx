@@ -93,6 +93,23 @@ function Set({ set, exerciseId, index, updateMode, updateWorkoutRef }) {
                 updateObj,
             },
         });
+
+        if (!updateMode) return;
+
+        const updatedSetsIds = updateWorkoutRef.current.updatedSets.map((set) => set.setId);
+        // const exists = updateWorkoutRef.current.updatedSets.some(
+        //    (e) => e.setId === set._id,
+        // );
+
+        if (!updatedSetsIds.includes(set._id))
+            updateWorkoutRef.current.updatedSets.push({ setId: set._id, updatedFields: { ...updateObj } });
+        else {
+            updateWorkoutRef.current.updatedSets = updateWorkoutRef.current.updatedSets.map((updatedSet) => {
+                if (set._id !== updatedSet.setId) return updatedSet;
+
+                return { ...updatedSet, updatedFields: { ...updatedSet.updatedFields, ...updateObj } };
+            });
+        }
     }
 
     function deleteSet() {
@@ -107,15 +124,17 @@ function Set({ set, exerciseId, index, updateMode, updateWorkoutRef }) {
 
     return (
         <StyledSet $completed={completed}>
-            <Options
-                options={[{ label: "Delete", onClick: deleteSet }]}
-                positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-51%)" }}
-                positionBoxCSS={{
-                    position: "absolute",
-                    top: "7rem",
-                    right: "-6rem",
-                }}
-            />
+            {!updateMode && (
+                <Options
+                    options={[{ label: "Delete", onClick: deleteSet }]}
+                    positionCSS={{ position: "absolute", top: "50%", right: "2rem", transform: "translateY(-51%)" }}
+                    positionBoxCSS={{
+                        position: "absolute",
+                        top: "7rem",
+                        right: "-6rem",
+                    }}
+                />
+            )}
             <Index>{index}</Index>
             <PreviousWeight>{set.PreviousWeight || "-- X --"}</PreviousWeight>
             <WeightInput
