@@ -142,7 +142,6 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
                             type: "exercise/update",
                             payload: { exerciseId: exercise._id, updateObj: { name } },
                         });
-                        console.log(e.target.value, exercise._id);
 
                         if (!updateMode) return;
 
@@ -156,6 +155,7 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
                         if (!updatedExercisesIds.includes(exercise._id))
                             updateWorkoutRef.current.updatedExercises.push({
                                 exerciseId: exercise._id,
+                                workoutId: exercise.workout,
                                 updatedFields: { name },
                             });
                         else {

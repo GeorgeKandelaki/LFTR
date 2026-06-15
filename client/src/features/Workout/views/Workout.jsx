@@ -130,13 +130,23 @@ export default function Workout({ updateMode = false }) {
         });
     }
 
-    function onUpdate() {}
+    function onUpdate() {
+        updateWorkout(updateWorkoutRef.current, {
+            onSuccess: () => {
+                updateWorkoutRef.current = { ...initialRef };
+                navigate("/history");
+            },
+            onError: (err) => {
+                console.log("UPDATE FAILED", err);
+            },
+        });
+    }
 
     if (isFinishing || isUpdating) return <Spinner />;
 
     return (
         <StyledWorkout>
-            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: updateMode ? "-3%" : "-6%" }}>
+            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: updateMode ? "-4%" : "-6%" }}>
                 &larr; Back
             </Button>
             {/* <--- HEADER ---> */}

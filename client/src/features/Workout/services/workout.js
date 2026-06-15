@@ -26,8 +26,10 @@ export async function updateWorkout(updateWorkoutObj) {
             method: "patch",
             url: `${API}/workouts/updateWorkoutObj`,
             withCredentials: true,
-            data: {},
+            data: updateWorkoutObj,
         });
+
+        return response.data;
     } catch (err) {
         console.error(err);
         toast.error(err.response?.data?.message || err.message);

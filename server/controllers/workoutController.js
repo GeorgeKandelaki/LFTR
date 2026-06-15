@@ -3,7 +3,7 @@ const AppError = require("../utils/appError");
 const Workout = require("../models/workoutModel");
 const { default: mongoose } = require("mongoose");
 
-const { filterObj } = require("../utils/utils");
+const { filterObj, isObjEmpty } = require("../utils/utils");
 
 exports.getWorkouts = catchAsync(async function (req, res, next) {
     const workouts = await Workout.find({ user: req.user.id }).populate({
@@ -103,10 +103,72 @@ exports.uploadWorkoutObj = catchAsync(async function (req, res, next) {
 });
 
 exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
-    console.log(req.body);
+    const Exercise = mongoose.model("Exercise");
+    const Set = mongoose.model("Set");
+
+    const updateObj = req.body;
+
+    // TODO:  Instead of sequential loops use Promise.all()
+    // TODO: Fixing the stale state in req.resource
+    // TODO: Too much redundant DB queries
+    // TODO: Needs shit ton of optimization and code refactoring
+
+    // WORKOUT UPDATES
+    if (!isObjEmpty(updateObj.updatedWorkoutFields)) {
+        const updatedWorkout = await Workout.findByIdAndUpdate(
+            updateObj.workoutId,
+            filterObj(updateObj.updatedWorkoutFields, ["user", "exercises", "finished", "startedAt", "finishedAt"]),
+            {
+                runValidators: true,
+                new: true,
+            },
+        );
+
+        if (!updatedWorkout) return next(new AppError("Couldn't update workout", 400));
+    }
+
+    // EXERCISE UPDATES
+    if (updateObj.updatedExercises.length) {
+        for (const exercise of updateObj.updatedExercises) {
+            const ownerVerified = req.resource.exercises.some(
+                (exerciseId) => exerciseId.toString() === exercise.exerciseId,
+            );
+
+            if (!ownerVerified) return next(new AppError("This Exercises doesn't belong to this workout", 401));
+
+            const updatedExercise = await Exercise.findByIdAndUpdate(
+                exercise.exerciseId,
+                filterObj(exercise.updatedFields, ["user", "workout", "sets"]),
+                { runValidators: true, new: true },
+            );
+
+            if (!updatedExercise) return next(new AppError("Couldn't update exercise", 400));
+        }
+    }
+
+    // SET UPDATES
+    if (updateObj.updatedSets.length) {
+        for (const set of updateObj.updatedSets) {
+            const exercise = await Exercise.findById(set.exerciseId);
+
+            if (!exercise) return next(new AppError("The parent exercise doesn't exist", 404));
+
+            const ownerVerified = exercise.sets.some((setId) => setId.toString() === set.setId);
+
+            if (!ownerVerified) return next(new AppError("This Set doesn't belong to this exercise", 401));
+
+            const updatedSet = await Set.findByIdAndUpdate(
+                set.setId,
+                filterObj(set.updatedFields, ["exercise", "user", "completed"]),
+                { runValidators: true, new: true },
+            );
+
+            if (!updatedSet) return next(new AppError("Couldn't update set", 400));
+        }
+    }
 
     return res.status(200).json({
         status: "success",
-        data: { updatedWorkout: {} },
+        data: null,
     });
 });

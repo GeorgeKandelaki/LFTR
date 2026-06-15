@@ -102,7 +102,11 @@ function Set({ set, exerciseId, index, updateMode, updateWorkoutRef }) {
         // );
 
         if (!updatedSetsIds.includes(set._id))
-            updateWorkoutRef.current.updatedSets.push({ setId: set._id, updatedFields: { ...updateObj } });
+            updateWorkoutRef.current.updatedSets.push({
+                setId: set._id,
+                exerciseId: set.exercise,
+                updatedFields: { ...updateObj },
+            });
         else {
             updateWorkoutRef.current.updatedSets = updateWorkoutRef.current.updatedSets.map((updatedSet) => {
                 if (set._id !== updatedSet.setId) return updatedSet;
