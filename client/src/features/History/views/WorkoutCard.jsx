@@ -14,7 +14,8 @@ const StyledWorkoutCard = styled.div`
     border-radius: 1rem;
     padding: 2.4rem 3.2rem;
 
-    /* height: 100%; */
+    max-width: 40rem;
+    width: 100%;
 `;
 
 const WorkoutHeader = styled.div`

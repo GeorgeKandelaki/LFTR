@@ -153,9 +153,13 @@ exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
 
             if (!exercise) return next(new AppError("The parent exercise doesn't exist", 404));
 
+            const workoutVerified = req.resource.exercises.some(
+                (exerciseId) => exerciseId.toString() === set.exerciseId,
+            );
             const ownerVerified = exercise.sets.some((setId) => setId.toString() === set.setId);
 
-            if (!ownerVerified) return next(new AppError("This Set doesn't belong to this exercise", 401));
+            if (!ownerVerified || !workoutVerified)
+                return next(new AppError("This Set doesn't belong to this exercise", 401));
 
             const updatedSet = await Set.findByIdAndUpdate(
                 set.setId,

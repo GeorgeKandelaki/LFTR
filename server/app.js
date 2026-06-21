@@ -8,6 +8,8 @@ const { xss } = require("express-xss-sanitizer");
 const userRouter = require("./routers/userRouter");
 const authRouter = require("./routers/authRouter");
 const workoutRouter = require("./routers/workoutRouter");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 
@@ -48,8 +50,12 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/workouts", workoutRouter);
 app.use("/api/v1/auth", authRouter);
 
-app.use("/", (req, res, next) => {
-    res.send("Works!!!");
-    next();
+app.all("/*splat", (req, res, next) => {
+    const err = new AppError(`Can't find ${req.originalUrl} on the server!`, 404);
+
+    next(err);
 });
+
+app.use(globalErrorHandler);
+
 module.exports = app;

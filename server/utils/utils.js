@@ -3,7 +3,7 @@ const AppError = require("./appError");
 exports.isObjEmpty = function isObjEmpty(obj) {
     if (obj.constructor !== Object) return false;
 
-    return Boolean(Object.keys(obj).length);
+    return !Boolean(Object.keys(obj).length);
 };
 
 exports.extractJWT = function extractJWT(req) {
