@@ -176,7 +176,7 @@ function Sidebar() {
                     </ul>
                 </SidebarNav>
                 <SidebarFooter>
-                    <Button size="medium" style={{ width: "100%" }}>
+                    <Button size="medium" style={{ width: "100%" }} onClick={() => {}}>
                         + New Workout
                     </Button>
                     <Avatar>

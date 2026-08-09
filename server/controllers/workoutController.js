@@ -176,3 +176,47 @@ exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
         data: null,
     });
 });
+
+exports.getStats = catchAsync(async (req, res, next) => {
+    const Exercise = mongoose.model("Exercise");
+    const Set = mongoose.model("Set");
+
+    const exerciseStats = await Exercise.aggregate([
+        {
+            $match: { user: req.user._id },
+        },
+
+        {
+            $unwind: "$sets",
+        },
+
+        {
+            $lookup: {
+                from: "sets",
+                localField: "sets",
+                foreignField: "_id",
+                as: "setObjects",
+            },
+        },
+
+        {
+            $unwind: "$setObjects",
+        },
+
+        {
+            $group: {
+                _id: "$name",
+                user: { $push: "$user" },
+                // workout: "$workout",
+                // sets: { $push: "$sets" },
+                setObjects: { $push: "$setObjects" },
+            },
+        },
+    ]);
+
+    return res.status(200).json({
+        status: "success",
+        stats: exerciseStats,
+        results: exerciseStats.length,
+    });
+});

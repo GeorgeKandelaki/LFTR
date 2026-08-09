@@ -224,6 +224,7 @@ export default function Workout({ updateMode = false }) {
                     onClick={() => {
                         if (updateMode) {
                             updateWorkoutRef.current = { ...initialRef };
+                            navigate("/history");
                             return;
                         }
 

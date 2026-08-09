@@ -8,12 +8,16 @@ import { useWorkout } from "../../../shared/context/WorkoutContext";
 import { useNavigate } from "react-router";
 
 const StyledWorkoutCard = styled.div`
+    align-self: start;
+
     display: inline-block;
     background-color: #111621;
     border: 1px solid var(--color-border-strong);
     border-radius: 1rem;
     padding: 2.4rem 3.2rem;
 
+    max-height: 50rem;
+    height: 100%;
     max-width: 40rem;
     width: 100%;
 `;

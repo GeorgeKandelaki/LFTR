@@ -8,10 +8,9 @@ const StyledHistory = styled.div`
     padding: 4.8rem 3.2rem;
     width: 100%;
 
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 40rem);
+    grid-template-rows: repeat(auto-fit, 50rem);
     gap: 3.2rem;
 `;
 

@@ -29,6 +29,22 @@ function castErrorHandler(err) {
     return new AppError(msg, 400);
 }
 
+function duplicateKeyErrorHandler(err) {
+    const [key, value] = Object.entries(error.keyValue)[0];
+
+    const msg = `There is already a resource with  ${key} ${value}. Please use another ${key}! `;
+
+    return new AppError(msg, 400);
+}
+
+function validationErrorHandler(err) {
+    const errors = Object.values(err.errors).map((val) => val.message);
+    const errorMessages = errors.join(". ");
+    const msg = `Invalid input data. ${errorMessages}`;
+
+    return new AppError(msg, 400);
+}
+
 module.exports = (error, req, res, next) => {
     error.statusCode = error.statusCode || 500;
     error.status = error.statusCode || "error";
@@ -36,9 +52,9 @@ module.exports = (error, req, res, next) => {
     if (process.env.NODE_ENV === "development") {
         devErrors(res, error);
     } else if (process.env.NODE_ENV === "production") {
-        if (error.name === "CastError") {
-            error = castErrorHandler(error);
-        }
+        if (error.name === "CastError") error = castErrorHandler(error);
+        if (error.code === 11000) error = duplicateKeyErrorHandler(error);
+        if (error.name === "ValidationError") error = validationErrorHandler(error);
         prodErrors(res, error);
     }
 };
