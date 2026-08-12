@@ -206,10 +206,24 @@ exports.getStats = catchAsync(async (req, res, next) => {
         {
             $group: {
                 _id: "$name",
-                user: { $push: "$user" },
-                // workout: "$workout",
+                sets: { $push: { _id: "$setObjects._id", weight: "$setObjects.weight", reps: "$setObjects.reps" } },
+                bestSet: {
+                    $push: {
+                        fullWeight: {
+                            // _id: { $getField: { field: "$setObjects", input: "$_id" } },
+                            $max: { $multiply: ["$setObjects.weight", "$setObjects.reps"] },
+                        },
+                    },
+                },
+
+                // user: { $push: "$user" },
+                // workout: {$push: "$workout"},
                 // sets: { $push: "$sets" },
-                setObjects: { $push: "$setObjects" },
+                // setObjects: { $push: "$setObjects" },
+                // bestSet: {
+                // weight: { $max: "" },
+                // reps: "",
+                // },
             },
         },
     ]);
