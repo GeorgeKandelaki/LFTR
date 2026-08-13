@@ -203,18 +203,14 @@ exports.getStats = catchAsync(async (req, res, next) => {
             $unwind: "$setObjects",
         },
 
+        { $addFields: { multipliedWeight: { $multiply: ["$setObjects.weight", "$setObjects.reps"] } } },
+
+        { $sort: { multipliedWeight: -1 } },
         {
             $group: {
                 _id: "$name",
                 sets: { $push: { _id: "$setObjects._id", weight: "$setObjects.weight", reps: "$setObjects.reps" } },
-                bestSet: {
-                    $push: {
-                        fullWeight: {
-                            // _id: { $getField: { field: "$setObjects", input: "$_id" } },
-                            $max: { $multiply: ["$setObjects.weight", "$setObjects.reps"] },
-                        },
-                    },
-                },
+                bestSet: { $first: "$setObjects" },
 
                 // user: { $push: "$user" },
                 // workout: {$push: "$workout"},
