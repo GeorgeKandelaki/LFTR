@@ -27,6 +27,10 @@ function reducer(state, action) {
             return { ...state, ...action.payload };
         }
 
+        case "workout/performAgain": {
+            return { ...initialState, workoutStarted: true, startedAt: Date.now(), ...action.payload };
+        }
+
         case "exercise/create": {
             return { ...state, exercises: [...state.exercises, action.payload.exercise] };
         }

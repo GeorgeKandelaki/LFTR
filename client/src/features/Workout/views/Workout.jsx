@@ -3,7 +3,7 @@ import { useWorkout } from "../../../shared/context/WorkoutContext";
 import { useNavigate } from "react-router";
 import { styled } from "styled-components";
 
-import Exercise from "../../../shared/models/Exercise";
+import { Exercise } from "../../../shared/models/Exercise";
 import Spinner from "../../../shared/components/Spinner";
 import { filterObj } from "../../../shared/utils/utils";
 import Button from "../../../shared/components/Button";

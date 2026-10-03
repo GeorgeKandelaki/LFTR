@@ -206,12 +206,14 @@ exports.getStats = catchAsync(async (req, res, next) => {
         { $addFields: { multipliedWeight: { $multiply: ["$setObjects.weight", "$setObjects.reps"] } } },
 
         { $sort: { multipliedWeight: -1 } },
+
         {
             $group: {
                 _id: "$name",
-                sets: { $push: { _id: "$setObjects._id", weight: "$setObjects.weight", reps: "$setObjects.reps" } },
+                uniqueExercises: { $addToSet: "$workout" },
                 bestSet: { $first: "$setObjects" },
 
+                // sets: { $push: { _id: "$setObjects._id", weight: "$setObjects.weight", reps: "$setObjects.reps" } },
                 // user: { $push: "$user" },
                 // workout: {$push: "$workout"},
                 // sets: { $push: "$sets" },
@@ -219,9 +221,10 @@ exports.getStats = catchAsync(async (req, res, next) => {
                 // bestSet: {
                 // weight: { $max: "" },
                 // reps: "",
-                // },
             },
         },
+
+        { $addFields: { exercisesDone: { $size: "$uniqueExercises" } } },
     ]);
 
     return res.status(200).json({

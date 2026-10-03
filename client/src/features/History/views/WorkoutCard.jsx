@@ -1,16 +1,22 @@
 import styled from "styled-components";
 
 import useDeleteWorkout from "../hooks/useDeleteWorkout";
+import { filterObj } from "../../../shared/utils/utils";
+import { Workout as WorkoutClass } from "../../../shared/models/Workout";
+import { Exercise as ExerciseClass } from "../../../shared/models/Exercise";
+import { Set as SetClass } from "../../../shared/models/Set";
 
 import Options from "../../../shared/components/Options";
 import Spinner from "../../../shared/components/Spinner";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
 import { useNavigate } from "react-router";
+import Button from "../../../shared/components/Button";
 
 const StyledWorkoutCard = styled.div`
     align-self: start;
 
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     background-color: #111621;
     border: 1px solid var(--color-border-strong);
     border-radius: 1rem;
@@ -46,12 +52,13 @@ const WorkoutDescription = styled.p`
 `;
 
 const Exercises = styled.div`
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* gap: 0.5rem; */
     & > div:not(:last-child) {
         border-bottom: 1px solid var(--color-border-subtle);
     }
+
+    overflow-y: scroll;
+    /* margin-bottom: auto; */
+    margin-bottom: 1.6rem;
 `;
 
 const Exercise = styled.div`
@@ -98,6 +105,45 @@ function WorkoutCard({ workout }) {
 
     const parsedStartedAtDate = new Date(startedAtDate).toUTCString();
     const parsedFinishedAtDate = new Date(finishedAtDate).toUTCString();
+
+    function parseWorkoutObjForReuse(workoutObj) {
+        let parsedWorkout = filterObj(workoutObj, [
+            "_id",
+            "__v",
+            "duration",
+            "startedAt",
+            "finishedAt",
+            "finished",
+            "id",
+            "user",
+        ]);
+
+        parsedWorkout.exercises = parsedWorkout.exercises.map((exercise) => {
+            let parsedExercise = filterObj(exercise, ["_id", "id", "__v", "user", "workout"]);
+            parsedExercise.sets = exercise.sets.map((set) => {
+                const parsedSet = filterObj(set, ["_id", "id", "__v", "user", "exercise"]);
+                parsedSet.completed = false;
+
+                return parsedSet;
+            });
+
+            return parsedExercise;
+        });
+
+        return parsedWorkout;
+    }
+
+    function performWorkoutAgain(workoutObj) {
+        const populatedWorkout = new WorkoutClass(workoutObj.name, workoutObj.description);
+        populatedWorkout.exercises = workoutObj.exercises.map((exercise) => {
+            const populatedExercise = new ExerciseClass(exercise.name, [], exercise.type);
+            populatedExercise.sets = exercise.sets.map((set) => new SetClass(set.weight, set.reps));
+
+            return populatedExercise;
+        });
+
+        dispatch({ type: "workout/performAgain", payload: populatedWorkout });
+    }
 
     return (
         <StyledWorkoutCard>
@@ -146,6 +192,16 @@ function WorkoutCard({ workout }) {
                                   </Exercise>
                               ))}
                     </Exercises>
+
+                    <Button
+                        style={{ width: "100%" }}
+                        onClick={() => {
+                            performWorkoutAgain(parseWorkoutObjForReuse(workout));
+                            navigate("/currentWorkout");
+                        }}
+                    >
+                        Perform Again
+                    </Button>
                 </>
             )}
         </StyledWorkoutCard>

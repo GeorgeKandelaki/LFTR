@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import SetClass from "../../../shared/models/Set";
+import { Set as SetClass } from "../../../shared/models/Set";
 import Set from "./Set";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
 import Options from "../../../shared/components/Options";

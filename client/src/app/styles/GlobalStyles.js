@@ -168,6 +168,27 @@ const GlobalStyles = createGlobalStyle`
     input[type=number] {
         -moz-appearance:textfield; /* Firefox */
     }
+
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 0;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: none;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: none;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: none;
+    }
 `;
 
 export default GlobalStyles;

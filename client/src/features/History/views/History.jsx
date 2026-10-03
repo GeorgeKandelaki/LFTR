@@ -10,7 +10,6 @@ const StyledHistory = styled.div`
 
     display: grid;
     grid-template-columns: repeat(auto-fit, 40rem);
-    grid-template-rows: repeat(auto-fit, 50rem);
     gap: 3.2rem;
 `;
 

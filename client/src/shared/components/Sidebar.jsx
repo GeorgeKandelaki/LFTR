@@ -7,8 +7,9 @@ import { PiDotsThreeOutlineVertical } from "react-icons/pi";
 import { FaBolt } from "react-icons/fa6";
 import { MdDashboard } from "react-icons/md";
 import { CgGym } from "react-icons/cg";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
+import { useWorkout } from "../context/WorkoutContext";
 
 const StyledSidebar = styled.div`
     position: relative;
@@ -139,9 +140,12 @@ const sidebarNav = [
 ];
 
 function Sidebar() {
+    const { dispatch } = useWorkout();
     const { user } = useCheckAuthentication();
     const { pathname } = useLocation();
     const [isOpen, setIsOpen] = useState(true);
+
+    const navigate = useNavigate();
 
     return (
         <StyledSidebar>
@@ -176,7 +180,14 @@ function Sidebar() {
                     </ul>
                 </SidebarNav>
                 <SidebarFooter>
-                    <Button size="medium" style={{ width: "100%" }} onClick={() => {}}>
+                    <Button
+                        size="medium"
+                        style={{ width: "100%" }}
+                        onClick={() => {
+                            dispatch({ type: "workout/start" });
+                            navigate("/currentWorkout");
+                        }}
+                    >
                         + New Workout
                     </Button>
                     <Avatar>
