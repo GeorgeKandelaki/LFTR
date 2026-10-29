@@ -5,6 +5,7 @@ import Set from "./Set";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
 import Options from "../../../shared/components/Options";
 import toast from "react-hot-toast";
+import { useWorkouts } from "../../../shared/context/WorkoutsContext";
 
 const StyledExercise = styled.div`
     display: grid;
@@ -103,6 +104,11 @@ const AddSetBtn = styled.button`
 
 function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
     const { dispatch } = useWorkout();
+    const { workoutsData } = useWorkouts();
+
+    const [similarEx] = workoutsData.lastDoneExercises.filter((ex) =>
+        ex._id.toLowerCase().trim() === exercise.name.toLowerCase().trim() ? ex : null,
+    );
 
     function addSet() {
         dispatch({ type: "set/create", payload: { newSet: new SetClass(), exerciseId: exercise._id } });
@@ -112,6 +118,7 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
         dispatch({ type: "exercise/delete", payload: { exerciseId: exercise._id } });
     }
 
+    console.log(similarEx);
     return (
         <StyledExercise $updateMode={updateMode}>
             <ExerciseHeader style={updateMode ? { padding: "3.2rem 2.4rem" } : {}}>
@@ -193,10 +200,29 @@ function Exercise({ exercise, index, updateWorkoutRef, updateMode }) {
             </SetLabelTable>
 
             <Sets>
+                {/* similarEx
+                    ? similarEx.sets.map((set, i) => (
+                          <Set
+                              set={{ ...set, completed: false }}
+                              exercise={exercise}
+                              index={i + 1}
+                              key={set._id}
+                              updateMode={updateMode}
+                              updateWorkoutRef={updateWorkoutRef}
+                          />
+                      ))
+                    : */}
                 {exercise.sets.map((set, i) => (
                     <Set
-                        set={set}
-                        exerciseId={exercise._id}
+                        set={
+                            similarEx && similarEx.sets[i]
+                                ? {
+                                      ...set,
+                                      previous: { weight: similarEx.sets[i].weight, reps: similarEx.sets[i].reps },
+                                  }
+                                : { ...set }
+                        }
+                        exercise={exercise}
                         index={i + 1}
                         key={set._id}
                         updateMode={updateMode}

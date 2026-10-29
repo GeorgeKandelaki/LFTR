@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 
 const initialState = {
     name: "New Workout",
@@ -111,8 +111,13 @@ const WorkoutContext = createContext(null);
 
 function WorkoutProvider({ children }) {
     const [workout, dispatch] = useReducer(reducer, initialState);
+    const [activeRestTimer, setActiveRestTimer] = useState("");
 
-    return <WorkoutContext.Provider value={{ workout, dispatch }}>{children}</WorkoutContext.Provider>;
+    return (
+        <WorkoutContext.Provider value={{ workout, dispatch, activeRestTimer, setActiveRestTimer }}>
+            {children}
+        </WorkoutContext.Provider>
+    );
 }
 
 function useWorkout() {

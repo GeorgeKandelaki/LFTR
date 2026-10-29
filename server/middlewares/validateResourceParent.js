@@ -54,10 +54,10 @@ module.exports = function validateResourceParent(field, parentField, localIdFiel
         // 2. Query the child document
         const doc = await LocalModel.findById(docId);
 
-        if (!doc) return next(new AppError("Owner Validation failed: No document with that ID"), 404);
+        if (!doc) return next(new AppError("Owner Validation failed: No document with that ID", 404));
 
         // 3. Ensure the child belongs to the requested parent
-        if (doc[localIdField] != parentId) return next(new AppError("This resource doesn't belong to requestor"), 401);
+        if (doc[localIdField] != parentId) return next(new AppError("This resource doesn't belong to requestor", 401));
 
         // 4. Parent verified, allow request to proceed
         next();

@@ -1,15 +1,23 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import useFetchLastDoneExercises from "../hooks/useFetchLastDoneExercises";
+import useFetchWorkouts from "../hooks/useFetchWorkouts";
+import Spinner from "../components/Spinner";
 
 const WorkoutsContext = createContext();
 
 const initialState = {
     workouts: [],
+    lastDoneExercises: [],
 };
 
 function reducer(state, action) {
     switch (action.type) {
-        case "": {
-            return state;
+        case "workouts/set": {
+            return { ...state, workouts: action.payload };
+        }
+
+        case "lastDoneExercises/set": {
+            return { ...state, lastDoneExercises: action.payload };
         }
     }
 
@@ -17,9 +25,14 @@ function reducer(state, action) {
 }
 
 function WorkoutsProvider({ children }) {
-    const [workouts, dispatch] = useReducer(reducer, initialState);
+    const [workoutsData, dispatch] = useReducer(reducer, initialState);
+    const { isPending: isPendingLastDoneExercises } = useFetchLastDoneExercises(dispatch);
+    const { isPending: isPendingWorkouts } = useFetchWorkouts(dispatch);
 
-    return <WorkoutsContext.Provider value={{ workouts, dispatch }}>{children}</WorkoutsContext.Provider>;
+    if (isPendingLastDoneExercises || isPendingWorkouts) return <Spinner />;
+
+    console.log(workoutsData);
+    return <WorkoutsContext.Provider value={{ workoutsData, dispatch }}>{children}</WorkoutsContext.Provider>;
 }
 
 function useWorkouts() {

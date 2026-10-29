@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import useFetchWorkouts from "../hooks/useFetchWorkouts";
 import WorkoutCard from "./WorkoutCard";
 
 import Spinner from "../../../shared/components/Spinner";
+import { useWorkouts } from "../../../shared/context/WorkoutsContext";
 
 const StyledHistory = styled.div`
     padding: 4.8rem 3.2rem;
@@ -23,14 +23,12 @@ const NoWorkouts = styled.p`
 `;
 
 function History() {
-    const { data, isPending } = useFetchWorkouts();
-
-    if (isPending) return <Spinner />;
+    const { workoutsData } = useWorkouts();
 
     return (
         <StyledHistory>
-            {data.workouts.length ? (
-                data.workouts.map((workout) => <WorkoutCard workout={workout} key={workout._id} />)
+            {workoutsData.workouts.length ? (
+                workoutsData.workouts.map((workout) => <WorkoutCard workout={workout} key={workout._id} />)
             ) : (
                 <NoWorkouts>No Workouts Found!</NoWorkouts>
             )}

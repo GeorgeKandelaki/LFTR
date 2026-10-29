@@ -1,7 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Workout = require("../models/workoutModel");
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, model } = require("mongoose");
 
 const { filterObj, isObjEmpty } = require("../utils/utils");
 
@@ -108,7 +108,7 @@ exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
 
     const updateObj = req.body;
 
-    // TODO:  Instead of sequential loops use Promise.all()
+    // TODO: Instead of sequential loops use Promise.all()
     // TODO: Fixing the stale state in req.resource
     // TODO: Too much redundant DB queries
     // TODO: Needs shit ton of optimization and code refactoring
@@ -179,7 +179,6 @@ exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
 
 exports.getStats = catchAsync(async (req, res, next) => {
     const Exercise = mongoose.model("Exercise");
-    const Set = mongoose.model("Set");
 
     const exerciseStats = await Exercise.aggregate([
         {
@@ -231,5 +230,65 @@ exports.getStats = catchAsync(async (req, res, next) => {
         status: "success",
         stats: exerciseStats,
         results: exerciseStats.length,
+    });
+});
+
+exports.getPreviousSets = catchAsync(async (req, res, next) => {
+    const Set = mongoose.model("Set");
+    const Exercise = mongoose.model("Exercise");
+    // const sets = await Set.find({ user: req.user })
+    // .sort({ name: 1 })
+    // .populate({
+    // path: "exercise",
+    // select: ["name", "workout", "_id", "type"],
+    // model: "Exercise",
+    // populate: { path: "workout", model: "Workout", select: ["_id", "startedAt", "finishedAt"] },
+    // });
+
+    const data = await Exercise.aggregate([
+        {
+            $match: { user: req.user._id },
+        },
+
+        {
+            $lookup: {
+                from: "workouts",
+                localField: "workout",
+                foreignField: "_id",
+                as: "workoutObj",
+            },
+        },
+
+        { $unwind: "$workoutObj" },
+
+        {
+            $lookup: {
+                from: "sets",
+                localField: "sets",
+                foreignField: "_id",
+                as: "setObjects",
+            },
+        },
+
+        { $sort: { "workoutObj.finishedAt": -1 } },
+
+        {
+            $group: {
+                _id: "$name",
+                workout: {
+                    $first: {
+                        _id: "$workoutObj._id",
+                        startedAt: "$workoutObj.startedAt",
+                        finishedAt: "$workoutObj.finishedAt",
+                    },
+                },
+                sets: { $first: "$setObjects" },
+            },
+        },
+    ]);
+
+    return res.status(200).json({
+        status: "success",
+        data,
     });
 });
