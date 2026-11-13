@@ -145,7 +145,7 @@ function Set({ set, exercise, index, updateMode, updateWorkoutRef }) {
             type: "set/update",
             payload: {
                 setId: set._id,
-                exerciseId: exercise.exerciseId,
+                exerciseId: exercise._id,
                 updateObj,
             },
         });
@@ -177,7 +177,7 @@ function Set({ set, exercise, index, updateMode, updateWorkoutRef }) {
             type: "set/delete",
             payload: {
                 setId: set._id,
-                exerciseId: exercise.exerciseId,
+                exerciseId: exercise._id,
             },
         });
     }
@@ -187,7 +187,6 @@ function Set({ set, exercise, index, updateMode, updateWorkoutRef }) {
             if (!activeRest || !completed || rest === 0) return;
 
             const timeout = setTimeout(() => setRest((cur) => --cur), 1000);
-            console.log("useEffect");
             return () => clearTimeout(timeout);
         },
         [activeRest, completed, rest, setRest, constantRest],
