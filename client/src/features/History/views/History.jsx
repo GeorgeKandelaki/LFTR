@@ -23,7 +23,9 @@ const NoWorkouts = styled.p`
 `;
 
 function History() {
-    const { workoutsData } = useWorkouts();
+    const { workoutsData, isPendingLastDoneExercises, isPendingWorkouts } = useWorkouts();
+
+    if (isPendingLastDoneExercises || isPendingWorkouts) return <Spinner />;
 
     return (
         <StyledHistory>

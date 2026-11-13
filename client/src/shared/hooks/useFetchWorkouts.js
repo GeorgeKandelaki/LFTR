@@ -13,7 +13,7 @@ export default function useFetchWorkouts(dispatch) {
     useEffect(
         function () {
             if (isPending) return;
-            dispatch({ type: "workouts/set", payload: data.data.workouts });
+            dispatch({ type: "workouts/set", payload: data?.data?.workouts });
         },
         [isPending, data, dispatch],
     );

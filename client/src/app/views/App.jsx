@@ -30,35 +30,32 @@ function App() {
                     <GlobalStyles />
                     <Toaster position="top-center" reverseOrder={false} />
                     <AuthProvider>
-                        <WorkoutsProvider>
-                            <WorkoutProvider>
-                                <Routes>
-                                    <Route path="*" element={<h1>404: This Route was not found!</h1>} />
+                        {/* <WorkoutsProvider> */}
+                        {/* <WorkoutProvider> */}
+                        <Routes>
+                            <Route path="*" element={<h1>404: This Route was not found!</h1>} />
 
-                                    <Route index element={<Home />} />
+                            <Route index element={<Home />} />
 
-                                    <Route path="/login" element={<Login />} />
-                                    <Route path="/signup" element={<Signup />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Signup />} />
 
-                                    {/* // Protected Routes*/}
-                                    <Route element={<ProtectedRoute />}>
-                                        <Route element={<Layout />}>
-                                            <Route path="/profile" element={<Profile />} />
-                                            <Route path="/settings" element={<Settings />} />
-                                            <Route path="/dashboard" element={<Dashboard />} />
-                                            <Route path="/history" element={<History />} />
-                                            <Route path="/workouts" element={<Workouts />} />
-                                        </Route>
+                            {/* // Protected Routes*/}
+                            <Route element={<ProtectedRoute />}>
+                                <Route element={<Layout />}>
+                                    <Route path="/profile" element={<Profile />} />
+                                    <Route path="/settings" element={<Settings />} />
+                                    <Route path="/dashboard" element={<Dashboard />} />
+                                    <Route path="/history" element={<History />} />
+                                    <Route path="/workouts" element={<Workouts />} />
+                                </Route>
 
-                                        <Route path="/currentWorkout" element={<Workout />} />
-                                        <Route
-                                            path="/currentWorkout/:workoutId"
-                                            element={<Workout updateMode={true} />}
-                                        />
-                                    </Route>
-                                </Routes>
-                            </WorkoutProvider>
-                        </WorkoutsProvider>
+                                <Route path="/currentWorkout" element={<Workout />} />
+                                <Route path="/currentWorkout/:workoutId" element={<Workout updateMode={true} />} />
+                            </Route>
+                        </Routes>
+                        {/* </WorkoutProvider> */}
+                        {/* </WorkoutsProvider> */}
                     </AuthProvider>
                 </BrowserRouter>
 

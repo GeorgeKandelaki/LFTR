@@ -13,7 +13,7 @@ export default function useFetchLastDoneExercises(dispatch) {
     useEffect(
         function () {
             if (isPending) return;
-            dispatch({ type: "lastDoneExercises/set", payload: data.data });
+            dispatch({ type: "lastDoneExercises/set", payload: data?.data });
         },
         [isPending, data, dispatch],
     );

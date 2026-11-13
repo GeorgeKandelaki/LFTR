@@ -29,10 +29,11 @@ function WorkoutsProvider({ children }) {
     const { isPending: isPendingLastDoneExercises } = useFetchLastDoneExercises(dispatch);
     const { isPending: isPendingWorkouts } = useFetchWorkouts(dispatch);
 
-    if (isPendingLastDoneExercises || isPendingWorkouts) return <Spinner />;
-
-    console.log(workoutsData);
-    return <WorkoutsContext.Provider value={{ workoutsData, dispatch }}>{children}</WorkoutsContext.Provider>;
+    return (
+        <WorkoutsContext.Provider value={{ workoutsData, dispatch, isPendingLastDoneExercises, isPendingWorkouts }}>
+            {children}
+        </WorkoutsContext.Provider>
+    );
 }
 
 function useWorkouts() {

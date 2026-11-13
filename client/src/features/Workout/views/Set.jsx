@@ -139,7 +139,6 @@ function Set({ set, exercise, index, updateMode, updateWorkoutRef }) {
     const constantRest = rest;
 
     const activeRest = activeRestTimer === set._id;
-    console.log(set);
 
     function updateSet(updateObj) {
         dispatch({
