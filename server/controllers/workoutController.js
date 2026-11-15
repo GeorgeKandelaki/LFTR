@@ -177,7 +177,7 @@ exports.updateWorkoutObj = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.getStats = catchAsync(async (req, res, next) => {
+exports.getBestSets = catchAsync(async (req, res, next) => {
     const Exercise = mongoose.model("Exercise");
 
     const exerciseStats = await Exercise.aggregate([
