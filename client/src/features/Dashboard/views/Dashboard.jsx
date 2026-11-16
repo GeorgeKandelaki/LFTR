@@ -1,19 +1,26 @@
 import styled from "styled-components";
 
+import BestSetsStat from "./BestSetsStat";
 import { useWorkouts } from "../../../shared/context/WorkoutsContext";
 import useFetchBestSets from "../hooks/useFetchBestSets";
 import Spinner from "../../../shared/components/Spinner";
 
-const StyledDashboard = styled.div``;
+const StyledDashboard = styled.div`
+    padding: 3.2rem 4.8rem;
+`;
 
 function Dashboard() {
-    const { isPendingLastDoneExercises, workoutsData } = useWorkouts();
-    const { data: bestSets, pending: isPendingBestSets } = useFetchBestSets();
+    // const { isPendingLastDoneExercises, workoutsData } = useWorkouts();
+    const { data: bestSets, isPending: isPendingBestSets } = useFetchBestSets();
 
-    if (isPendingLastDoneExercises || isPendingBestSets) return <Spinner />;
+    if (isPendingBestSets) return <Spinner />;
 
     console.log(bestSets);
-    return <StyledDashboard></StyledDashboard>;
+    return (
+        <StyledDashboard>
+            <BestSetsStat sets={bestSets} />
+        </StyledDashboard>
+    );
 }
 
 export default Dashboard;
