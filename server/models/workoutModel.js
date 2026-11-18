@@ -6,7 +6,6 @@ const workoutSchema = new mongoose.Schema(
         name: { type: String, required: true, trim: true },
         user: { type: Schema.Types.ObjectId, ref: "User", required: true },
         exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
-        finished: { type: Boolean, default: false },
         description: { type: String },
         startedAt: { type: Date, default: Date.now() },
         finishedAt: { type: Date, default: null },
@@ -15,7 +14,7 @@ const workoutSchema = new mongoose.Schema(
     { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-workoutSchema.index({ user: 1 });
+workoutSchema.index({ user: 1, finishedAt: -1 });
 
 workoutSchema.virtual("duration").get(function () {
     if (!this.finishedAt) return null;

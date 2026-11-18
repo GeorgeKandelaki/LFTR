@@ -236,14 +236,6 @@ exports.getBestSets = catchAsync(async (req, res, next) => {
 exports.getPreviousSets = catchAsync(async (req, res, next) => {
     const Set = mongoose.model("Set");
     const Exercise = mongoose.model("Exercise");
-    // const sets = await Set.find({ user: req.user })
-    // .sort({ name: 1 })
-    // .populate({
-    // path: "exercise",
-    // select: ["name", "workout", "_id", "type"],
-    // model: "Exercise",
-    // populate: { path: "workout", model: "Workout", select: ["_id", "startedAt", "finishedAt"] },
-    // });
 
     const data = await Exercise.aggregate([
         {
@@ -290,5 +282,25 @@ exports.getPreviousSets = catchAsync(async (req, res, next) => {
     return res.status(200).json({
         status: "success",
         data,
+    });
+});
+
+exports.getWorkoutStats = catchAsync(async (req, res, next) => {
+    const dateNow = new Date();
+    const dateFilters = {
+        weekly: new Date(new Date().setMonth(new Date().getMonth() - 2)),
+        monthly: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+    };
+
+    const workoutStats = await Workout.aggregate([
+        {
+            $match: { user: req.user._id, finishedAt: { $gte: dateFilters.weekly } },
+        },
+    ]);
+
+    return res.status(200).json({
+        status: "success",
+        dateNow,
+        stats: workoutStats,
     });
 });
