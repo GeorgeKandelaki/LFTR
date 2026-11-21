@@ -77,6 +77,8 @@ exports.uploadWorkoutObj = catchAsync(async function (req, res, next) {
 
     if (!workout) return next(new AppError("Workout couldn't be created. Try again.", 404));
 
+    if (!req.body.exercises.length) return next(new AppError("Workout must have exercises in it.", 401));
+
     for (let i = 0; i < req.body.exercises.length; i++) {
         const curExercise = req.body.exercises[i];
         const filteredExercise = { ...filterObj(curExercise, ["sets"]), workout: workout.id };
@@ -285,22 +287,79 @@ exports.getPreviousSets = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.getWorkoutStats = catchAsync(async (req, res, next) => {
+exports.getWorkoutStatsWeekly = catchAsync(async (req, res, next) => {
     const dateNow = new Date();
-    const dateFilters = {
-        weekly: new Date(new Date().setMonth(new Date().getMonth() - 2)),
-        monthly: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+    const dateFilter = {
+        startingDate: new Date(new Date(new Date().setHours(0, 0, 0, 0)).setMonth(new Date().getMonth() - 2)),
+        weeklyStartingDates: [],
     };
 
-    const workoutStats = await Workout.aggregate([
+    const weeklyDate = dateFilter.startingDate;
+    let i;
+    for (
+        i = new Date(new Date(weeklyDate).setDate(weeklyDate.getDate() - ((weeklyDate.getDay() + 6) % 7)));
+        i.getTime() <= new Date().getTime();
+        i.setDate(i.getDate() + 7)
+    )
+        dateFilter.weeklyStartingDates.push(new Date(i));
+    dateFilter.weeklyStartingDates.push(new Date(i));
+
+    const stats = await Workout.aggregate([
         {
-            $match: { user: req.user._id, finishedAt: { $gte: dateFilters.weekly } },
+            $match: { user: req.user._id, finishedAt: { $gte: dateFilter.weeklyStartingDates[0] } },
+        },
+
+        {
+            $bucket: {
+                groupBy: "$finishedAt",
+                boundaries: dateFilter.weeklyStartingDates,
+                output: {
+                    count: { $sum: 1 },
+                },
+            },
         },
     ]);
 
     return res.status(200).json({
         status: "success",
         dateNow,
-        stats: workoutStats,
+        stats: stats,
     });
+});
+
+exports.getWorkoutStatsMonthly = catchAsync(async (req, res, next) => {
+    const dateNow = new Date();
+    const dateFilter = {
+        startingDate: new Date(new Date(new Date().setHours(0, 0, 0, 0)).setFullYear(new Date().getFullYear() - 1)),
+        monthlyStartingDates: [],
+    };
+
+    let i;
+    for (
+        i = new Date(new Date(new Date(dateFilter.startingDate).setDate(1)));
+        i.getTime() <= dateNow.getTime();
+        i.setMonth(i.getMonth() + 1)
+    )
+        dateFilter.monthlyStartingDates.push(new Date(i));
+    dateFilter.monthlyStartingDates.push(new Date(i));
+
+    let stats = await Workout.aggregate([
+        {
+            $match: { user: req.user._id, finishedAt: { $gte: dateFilter.monthlyStartingDates[0] } },
+        },
+
+        {
+            $bucket: {
+                groupBy: "$finishedAt",
+                boundaries: dateFilter.monthlyStartingDates,
+                output: {
+                    count: { $sum: 1 },
+                },
+            },
+        },
+    ]);
+
+    stats = stats.map((date) => dateFilter.monthlyStartingDates.includes(date._id));
+
+    return res.status(200).json({ status: "success", stats });
 });

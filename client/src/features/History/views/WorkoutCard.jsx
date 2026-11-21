@@ -52,6 +52,10 @@ const WorkoutDescription = styled.p`
 `;
 
 const Exercises = styled.div`
+    max-height: 35rem;
+    height: 100%;
+
+    height: 100%;
     & > div:not(:last-child) {
         border-bottom: 1px solid var(--color-border-subtle);
     }
@@ -176,21 +180,34 @@ function WorkoutCard({ workout }) {
                         <WorkoutEndDate>Finished: {parsedFinishedAtDate}</WorkoutEndDate>
                     </WorkoutHeader>
                     <Exercises>
-                        {!workout.exercises.length
-                            ? "No Exercises"
-                            : workout.exercises.map((exercise, i) => (
-                                  <Exercise key={exercise._id}>
-                                      <ExerciseName>{exercise.name}</ExerciseName>
-                                      <Sets>
-                                          {exercise.sets.map((set, i) => (
-                                              <Set key={set._id}>
-                                                  <SetIndex>{i + 1}</SetIndex>
-                                                  <SetWeight>{set.weight}KG</SetWeight> x <SetReps>{set.reps}</SetReps>
-                                              </Set>
-                                          ))}
-                                      </Sets>
-                                  </Exercise>
-                              ))}
+                        {!workout.exercises.length ? (
+                            <div
+                                style={{
+                                    fontWeight: "600",
+                                    fontSize: "2.4rem",
+                                    height: "35rem",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <p>No Exercises :(</p>
+                            </div>
+                        ) : (
+                            workout.exercises.map((exercise) => (
+                                <Exercise key={exercise._id}>
+                                    <ExerciseName>{exercise.name}</ExerciseName>
+                                    <Sets>
+                                        {exercise.sets.map((set, i) => (
+                                            <Set key={set._id}>
+                                                <SetIndex>{i + 1}</SetIndex>
+                                                <SetWeight>{set.weight}KG</SetWeight> x <SetReps>{set.reps}</SetReps>
+                                            </Set>
+                                        ))}
+                                    </Sets>
+                                </Exercise>
+                            ))
+                        )}
                     </Exercises>
 
                     <Button

@@ -11,6 +11,7 @@ const StyledHistory = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, 40rem);
     gap: 3.2rem;
+    overflow: scroll;
 `;
 
 const NoWorkouts = styled.p`

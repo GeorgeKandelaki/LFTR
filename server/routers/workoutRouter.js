@@ -15,7 +15,8 @@ router.use(authController.protect);
 router.route("/").get(workoutController.getWorkouts).post(workoutController.createWorkout);
 router.get("/getBestSets", workoutController.getBestSets);
 router.get("/getPreviousSets", workoutController.getPreviousSets);
-router.get("/getWorkoutStats", workoutController.getWorkoutStats);
+router.get("/getWorkoutStatsWeekly", workoutController.getWorkoutStatsWeekly);
+router.get("/getWorkoutStatsMonthly", workoutController.getWorkoutStatsMonthly);
 
 router.patch("/updateWorkoutObj", validateResourceUser("workoutId", Workout), workoutController.updateWorkoutObj);
 router.post("/uploadWorkoutObj", workoutController.uploadWorkoutObj);

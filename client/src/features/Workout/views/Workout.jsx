@@ -145,96 +145,98 @@ export default function Workout({ updateMode = false }) {
     if (isFinishing || isUpdating) return <Spinner />;
 
     return (
-        <StyledWorkout>
-            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: updateMode ? "-4%" : "-6%" }}>
+        <>
+            <Button onClick={() => navigate(-1)} style={{ position: "absolute", top: "-4%", left: "20%" }}>
                 &larr; Back
             </Button>
-            {/* <--- HEADER ---> */}
-            <WorkoutHeader>
-                <WorkoutHeading
-                    value={workout.name}
-                    onChange={(e) => {
-                        // if (e.target.value.length < 1) {
-                        //     e.target.value = "New Workout";
-                        //     toast.error("Workout name can't be empty!");
-                        // }
+            <StyledWorkout>
+                {/* <--- HEADER ---> */}
+                <WorkoutHeader>
+                    <WorkoutHeading
+                        value={workout.name}
+                        onChange={(e) => {
+                            // if (e.target.value.length < 1) {
+                            //     e.target.value = "New Workout";
+                            //     toast.error("Workout name can't be empty!");
+                            // }
 
-                        dispatch({
-                            type: "workout/update",
-                            payload: {
-                                name: e.target.value,
-                            },
-                        });
+                            dispatch({
+                                type: "workout/update",
+                                payload: {
+                                    name: e.target.value,
+                                },
+                            });
 
-                        if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.name = e.target.value;
-                    }}
+                            if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.name = e.target.value;
+                        }}
+                    />
+
+                    <WorkoutDescription
+                        value={workout.description}
+                        onChange={(e) => {
+                            // if (e.target.value.length < 1) {
+                            //     toast.error("Workout description can't be empty!");
+                            //     e.target.value = "No Description";
+                            // }
+
+                            dispatch({
+                                type: "workout/update",
+                                payload: {
+                                    description: e.target.value,
+                                },
+                            });
+
+                            if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.description = e.target.value;
+                        }}
+                    />
+                </WorkoutHeader>
+
+                {/* <--- WORKOUT PROGRESS BAR ---> */}
+                <WorkoutProgress maxExercises={workout.exercises.length} finishedExercise={0} />
+
+                {/* <--- WORKOUT EXERCISES/SETS ---> */}
+                <WorkoutExercises
+                    exercises={workout.exercises}
+                    updateMode={updateMode}
+                    updateWorkoutRef={updateWorkoutRef}
                 />
 
-                <WorkoutDescription
-                    value={workout.description}
-                    onChange={(e) => {
-                        // if (e.target.value.length < 1) {
-                        //     toast.error("Workout description can't be empty!");
-                        //     e.target.value = "No Description";
-                        // }
+                {/* <--- ADD EXERCISE BUTTON ---> */}
+                {!updateMode && (
+                    <AddExerciseButton
+                        onClick={() => {
+                            dispatch({
+                                type: "exercise/create",
+                                payload: { exercise: new Exercise("New Exercise", []) },
+                            });
+                        }}
+                    >
+                        + Add Exercise
+                    </AddExerciseButton>
+                )}
 
-                        dispatch({
-                            type: "workout/update",
-                            payload: {
-                                description: e.target.value,
-                            },
-                        });
+                {/* <--- FINISH/REMOVE/DISCARD WORKOUT ---> */}
+                <WorkoutFinalActions>
+                    <Button onClick={updateMode ? onUpdate : onFinish}>
+                        {updateMode ? "Submit Changes" : "Finish Workout"}
+                    </Button>
+                    <Button
+                        variation="delete"
+                        onClick={() => {
+                            if (updateMode) {
+                                updateWorkoutRef.current = { ...initialRef };
+                                navigate("/history");
+                                return;
+                            }
 
-                        if (updateMode) updateWorkoutRef.current.updatedWorkoutFields.description = e.target.value;
-                    }}
-                />
-            </WorkoutHeader>
-
-            {/* <--- WORKOUT PROGRESS BAR ---> */}
-            <WorkoutProgress maxExercises={workout.exercises.length} finishedExercise={0} />
-
-            {/* <--- WORKOUT EXERCISES/SETS ---> */}
-            <WorkoutExercises
-                exercises={workout.exercises}
-                updateMode={updateMode}
-                updateWorkoutRef={updateWorkoutRef}
-            />
-
-            {/* <--- ADD EXERCISE BUTTON ---> */}
-            {!updateMode && (
-                <AddExerciseButton
-                    onClick={() => {
-                        dispatch({
-                            type: "exercise/create",
-                            payload: { exercise: new Exercise("New Exercise", []) },
-                        });
-                    }}
-                >
-                    + Add Exercise
-                </AddExerciseButton>
-            )}
-
-            {/* <--- FINISH/REMOVE/DISCARD WORKOUT ---> */}
-            <WorkoutFinalActions>
-                <Button onClick={updateMode ? onUpdate : onFinish}>
-                    {updateMode ? "Submit Changes" : "Finish Workout"}
-                </Button>
-                <Button
-                    variation="delete"
-                    onClick={() => {
-                        if (updateMode) {
-                            updateWorkoutRef.current = { ...initialRef };
-                            navigate("/history");
-                            return;
-                        }
-
-                        toast.success("Workout Discarded!");
-                        dispatch({ type: "workout/discard" });
-                    }}
-                >
-                    Discard {updateMode ? "Changes" : "Workout"}
-                </Button>
-            </WorkoutFinalActions>
-        </StyledWorkout>
+                            toast.success("Workout Discarded!");
+                            dispatch({ type: "workout/discard" });
+                        }}
+                    >
+                        Discard {updateMode ? "Changes" : "Workout"}
+                    </Button>
+                </WorkoutFinalActions>
+            </StyledWorkout>
+        </>
     );
 }

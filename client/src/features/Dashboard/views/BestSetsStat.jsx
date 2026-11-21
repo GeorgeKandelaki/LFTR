@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const StyledBestSetsStat = styled.div`
+    max-width: 50rem;
+    width: 100%;
+    max-height: 60rem;
+    height: 100%;
+
     padding: 1.2rem 2.4rem;
     background-color: var(--color-neutral-1000);
     border: 2px solid var(--color-border-subtle);
@@ -11,10 +16,11 @@ const Heading = styled.h2`
     border-bottom: 1px solid var(--color-border-strong);
     padding-bottom: 0.3rem;
     margin-bottom: 1.2rem;
+    text-align: center;
 `;
 
 const Sets = styled.div`
-    max-height: 45rem;
+    max-height: 50rem;
     overflow-y: scroll;
 
     display: flex;
@@ -44,7 +50,6 @@ const ExerciseDone = styled.p``;
 const TotalWeight = styled.p``;
 
 function BestSetsStat({ sets }) {
-    console.log(sets);
     return (
         <StyledBestSetsStat>
             <Heading>PR's on each performed exercise</Heading>
