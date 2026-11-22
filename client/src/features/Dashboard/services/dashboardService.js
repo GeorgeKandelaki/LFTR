@@ -29,3 +29,19 @@ export async function fetchWorkoutStatsWeekly() {
         throw err;
     }
 }
+
+export async function fetchWorkoutStatsMonthly() {
+    try {
+        const response = await axios({
+            method: "get",
+            url: `${API}/workouts/getWorkoutStatsMonthly`,
+            withCredentials: true,
+        });
+
+        return response.data.stats;
+    } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || err.message);
+        throw err;
+    }
+}

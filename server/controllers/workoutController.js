@@ -6,10 +6,12 @@ const { default: mongoose, model } = require("mongoose");
 const { filterObj, isObjEmpty } = require("../utils/utils");
 
 exports.getWorkouts = catchAsync(async function (req, res, next) {
-    const workouts = await Workout.find({ user: req.user.id }).populate({
-        path: "exercises",
-        populate: { path: "sets" },
-    });
+    const workouts = await Workout.find({ user: req.user.id })
+        .sort({ finishedAt: -1 })
+        .populate({
+            path: "exercises",
+            populate: { path: "sets" },
+        });
 
     if (!workouts.length) return next(new AppError("No Workouts associated with the user."));
 
@@ -304,7 +306,7 @@ exports.getWorkoutStatsWeekly = catchAsync(async (req, res, next) => {
         dateFilter.weeklyStartingDates.push(new Date(i));
     dateFilter.weeklyStartingDates.push(new Date(i));
 
-    const stats = await Workout.aggregate([
+    let stats = await Workout.aggregate([
         {
             $match: { user: req.user._id, finishedAt: { $gte: dateFilter.weeklyStartingDates[0] } },
         },
@@ -320,9 +322,18 @@ exports.getWorkoutStatsWeekly = catchAsync(async (req, res, next) => {
         },
     ]);
 
+    let buf = 0;
+    stats = dateFilter.weeklyStartingDates
+        .map((date) => {
+            const ids = stats.map((stat) => stat._id.getTime());
+            if (!ids.includes(date.getTime())) return { _id: date, count: 0 };
+
+            return stats[buf++];
+        })
+        .slice(0, -1);
+
     return res.status(200).json({
         status: "success",
-        dateNow,
         stats: stats,
     });
 });
@@ -359,7 +370,18 @@ exports.getWorkoutStatsMonthly = catchAsync(async (req, res, next) => {
         },
     ]);
 
-    stats = stats.map((date) => dateFilter.monthlyStartingDates.includes(date._id));
+    let buf = 0;
+    stats = dateFilter.monthlyStartingDates
+        .map((date) => {
+            const ids = stats.map((stat) => stat._id.getTime());
+            if (!ids.includes(date.getTime())) return { _id: date, count: 0 };
 
-    return res.status(200).json({ status: "success", stats });
+            return stats[buf++];
+        })
+        .slice(0, -1);
+
+    return res.status(200).json({
+        status: "success",
+        stats,
+    });
 });
