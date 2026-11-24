@@ -8,6 +8,8 @@ const { xss } = require("express-xss-sanitizer");
 const userRouter = require("./routers/userRouter");
 const authRouter = require("./routers/authRouter");
 const workoutRouter = require("./routers/workoutRouter");
+const workoutTemplateRouter = require("./routers/workoutTemplateRouter");
+
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
@@ -48,6 +50,7 @@ app.use(cookieParser());
 // Top-Level Routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/workouts", workoutRouter);
+app.use("/api/v1/workoutTemplates", workoutTemplateRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.all("/*splat", (req, res, next) => {
