@@ -6,19 +6,17 @@ import GlobalStyles from "../styles/GlobalStyles";
 import Home from "../../features/Home/views/HomeDetail";
 import Login from "../../features/authentication/views/Login";
 import Signup from "../../features/authentication/views/Signup";
-import Workouts from "../../features/Workouts/views/Workouts";
 import Profile from "../../features/Profile/views/Profile";
 import Settings from "../../features/Settings/views/Settings";
 import Dashboard from "../../features/Dashboard/views/Dashboard";
 import History from "../../features/History/views/History";
 import Workout from "../../features/Workout/views/Workout";
+import Templates from "../../features/Templates/views/Templates";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "../../shared/context/AuthContext";
-import { WorkoutProvider } from "../../shared/context/WorkoutContext";
 import Layout from "../../shared/components/Layout";
-import { WorkoutsProvider } from "../../shared/context/WorkoutsContext";
 
 const queryClient = new QueryClient();
 
@@ -30,8 +28,6 @@ function App() {
                     <GlobalStyles />
                     <Toaster position="top-center" reverseOrder={false} />
                     <AuthProvider>
-                        {/* <WorkoutsProvider> */}
-                        {/* <WorkoutProvider> */}
                         <Routes>
                             <Route path="*" element={<h1>404: This Route was not found!</h1>} />
 
@@ -47,15 +43,13 @@ function App() {
                                     <Route path="/settings" element={<Settings />} />
                                     <Route path="/dashboard" element={<Dashboard />} />
                                     <Route path="/history" element={<History />} />
-                                    <Route path="/workouts" element={<Workouts />} />
+                                    <Route path="/Templates" element={<Templates />} />
                                 </Route>
 
                                 <Route path="/currentWorkout" element={<Workout />} />
                                 <Route path="/currentWorkout/:workoutId" element={<Workout updateMode={true} />} />
                             </Route>
                         </Routes>
-                        {/* </WorkoutProvider> */}
-                        {/* </WorkoutsProvider> */}
                     </AuthProvider>
                 </BrowserRouter>
 

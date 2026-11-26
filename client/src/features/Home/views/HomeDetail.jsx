@@ -122,7 +122,7 @@ function HomeDetail() {
                         </Row>
 
                         <Row gap="1.6rem">
-                            <Button onClick={() => navigate("/workouts")}>Start your journey &rarr;</Button>
+                            <Button onClick={() => navigate("/templates")}>Start your journey &rarr;</Button>
                             <Button variation="secondary">View Demo</Button>
                         </Row>
                     </Hero>

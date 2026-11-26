@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.post("/templates/create", workoutTemplateController.createTemplate);
 router.get("/templates", workoutTemplateController.getTemplates);
+router.post("/templates/create", workoutTemplateController.createTemplate);
 router
     .route("/templates/:templateId")
     .all(validateResourceUser("templateId", WorkoutTemplate))

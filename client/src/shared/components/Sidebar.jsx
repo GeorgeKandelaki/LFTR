@@ -134,7 +134,7 @@ const OpenButton = styled.button`
 
 const sidebarNav = [
     { route: "/dashboard", label: "Dashboard", icon: MdDashboard },
-    { route: "/workouts", label: "Workouts", icon: CgGym },
+    { route: "/templates", label: "Templates", icon: CgGym },
     { route: "/history", label: "History", icon: FaHistory },
     { route: "/profile", label: "Profile", icon: FaUser },
 ];

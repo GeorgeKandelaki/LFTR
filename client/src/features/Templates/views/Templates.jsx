@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router";
 import Button from "../../../shared/components/Button";
 import { useWorkout } from "../../../shared/context/WorkoutContext";
+import styled from "styled-components";
 
-function Workouts() {
+const StyledTemplates = styled.div``;
+
+function Templates() {
     const navigate = useNavigate();
     const { dispatch } = useWorkout();
 
@@ -12,12 +15,12 @@ function Workouts() {
     }
 
     return (
-        <div>
+        <StyledTemplates>
             <Button size="small" onClick={startWorkout}>
                 Start a workout
             </Button>
-        </div>
+        </StyledTemplates>
     );
 }
 
-export default Workouts;
+export default Templates;

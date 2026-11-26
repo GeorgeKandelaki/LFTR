@@ -1,7 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Workout = require("../models/workoutModel");
-const { default: mongoose, model } = require("mongoose");
+const { default: mongoose } = require("mongoose");
 
 const { filterObj, isObjEmpty } = require("../utils/utils");
 

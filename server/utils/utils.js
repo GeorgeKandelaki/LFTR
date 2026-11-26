@@ -33,3 +33,13 @@ exports.filterObj = function filterObj(obj, keysToFilter) {
 
     return filteredObj;
 };
+
+exports.fieldsToLeave = function fieldsToLeave(obj, keysToLeave) {
+    const filteredObj = {};
+
+    for (const [key, value] of Object.entries(obj)) {
+        if (keysToLeave.includes(key)) filteredObj[key] = value;
+    }
+
+    return filteredObj;
+};
