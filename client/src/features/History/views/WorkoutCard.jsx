@@ -32,7 +32,6 @@ const WorkoutHeader = styled.div`
     position: relative;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--color-border-strong);
-    padding-bottom: 0.8rem;
 `;
 
 const WorkoutName = styled.h2``;
@@ -160,7 +159,7 @@ function WorkoutCard({ workout }) {
                             options={[
                                 {
                                     label: "Delete",
-                                    onClick: () => mutate(workout.id),
+                                    onClick: () => mutate(workout._id),
                                 },
                                 {
                                     label: "Update",
